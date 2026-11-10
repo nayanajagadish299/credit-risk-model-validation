@@ -1,111 +1,66 @@
-# Credit Risk Model Validation & Decisioning Workbench
+# SBA 7(a) Credit-Risk Analytics & Model Validation
 
-**An independent Financial Data Science project using Python, Machine Learning and Statistical Model Validation.**
+**An independent financial data science project using publicly released SBA 7(a) FOIA data.**
 
-## 1. Project Overview
+The project studies portfolio outcomes, temporal cohort construction, credit-risk model experiments, feature provenance and an unusual loan-term/product pattern. The goal is a reproducible, carefully interpreted validation workflow—not a production lending model or a claim of causal effects.
 
-This project aims to develop and validate credit risk models to assess the probability of customer default and support data-driven lending decisions.
+## Data and evaluation design
 
-The project explores traditional statistical modelling techniques alongside machine learning approaches, with a focus on model performance, reliability, explainability and financial decision-making.
+- **Source:** Public SBA 7(a) FOIA loan data.
+- **Snapshot used locally:** September 30, 2026.
+- **Development split:** FY2010–FY2013 fit; FY2014 forward validation.
+- **Locked test:** FY2015–FY2016 is intentionally unopened while feature and model decisions remain in development.
+- Raw source files are maintained separately; this repository landing page does not distribute borrower-level data.
 
-The objective is to understand how credit risk models can be evaluated and how their outputs can support responsible lending decisions.
+## Project status — 10 November 2026
 
-## 2. Project Objectives
+### Completed analytical work
 
-- Develop a Probability of Default (PD) prediction model.
-- Implement a traditional Logistic Regression model.
-- Develop a machine learning challenger model using XGBoost.
-- Evaluate model discrimination and predictive performance.
-- Assess model calibration and stability.
-- Analyse model explainability and feature importance.
-- Explore credit decision thresholds and financial implications.
-- Develop an interactive dashboard for model assessment.
+1. Public-data profiling and data-quality audits.
+2. Fixed-horizon cohort construction and temporal split.
+3. Baseline HistGradientBoosting model and model interpretation.
+4. Task 4 feature enrichment and feature-provenance diagnostics.
+5. Task 5A feature-set experiments A–F.
+6. Task 5B exact-term/product-group anomaly audit.
+7. Initial Task 5C adjusted analysis.
 
-## 3. Dataset
+### Current work and next gates
 
-**Dataset:** Default of Credit Card Clients
+- **Task 5C.1:** Run the corrected analysis. It retains all exact-term groups, uses observed-support term/revolver groups, reports the Unanswered business-age category and full Model C coefficients, and fits imputation statistics on FY2010–FY2013 only.
+- **Task 5D:** Investigate product drivers and the Unanswered category; perform term-pattern ablation; compare Logistic Regression with HistGradientBoosting; inspect calibration by group; make final feature decisions.
+- Confirm point-in-time availability and source definitions before freezing the feature set.
+- Only after the feature/model freeze should the FY2015–FY2016 locked test be considered.
 
-**Source:** UCI Machine Learning Repository
+**Important:** The saved first-run Task 5C output is provisional. The corrected analysis package contains the rerun script; corrected results must be generated and checked before any Task 5C result is treated as final.
 
-**Dataset characteristics:**
-- 30,000 observations.
-- 23 explanatory variables.
-- Historical credit card default information.
-- Binary target variable representing default payment status.
+## Interpretation guardrails
 
-The dataset will be used strictly for educational and analytical purposes.
+- Odds ratios are not risk ratios.
+- Statistical association is not causation.
+- A strong term-related signal is a diagnostic finding, not proof of a product rule or data error.
+- Do not use off-support predictions or unsupported term/revolver combinations as evidence.
+- Point-in-time predictor availability must be confirmed before predictive claims.
+- Do not report the locked test as evaluated until it has been deliberately opened after model freeze.
 
-## 4. Technology Stack
+## Reference/reproduction distinction
 
-| Technology | Application |
-|---|---|
-| Python | Data analysis and modelling |
-| Pandas & NumPy | Data processing |
-| Scikit-learn | Statistical modelling and validation |
-| XGBoost | Challenger model |
-| Matplotlib & Seaborn | Data visualisation |
-| SHAP | Model explainability |
-| SQL | Data querying |
-| Streamlit | Interactive dashboard |
-| Git & GitHub | Version control |
+A related public reference repository was inspected, but it uses a June 30, 2026 SBA snapshot. The local project uses the September 30, 2026 snapshot. The reference repository has not been independently cloned and run end-to-end; this work must not be described as an exact reproduction. Keep reference code separate and attribute any external methodology.
 
-## 5. Model Validation Framework
+## Planned portfolio deliverables
 
-The planned validation framework includes:
+- Reproducible cohort and analysis scripts.
+- Pinned environment and automated tests.
+- Model comparison and calibration tables.
+- Feature timing/provenance register.
+- Model card and technical validation report.
+- A compact dashboard or demo after the analytical decisions are frozen.
 
-- Discrimination: ROC-AUC, Gini and KS statistics.
-- Calibration: Brier score and calibration curves.
-- Stability: Population Stability Index (PSI) and feature drift.
-- Explainability: SHAP analysis.
-- Decisioning: Risk thresholds and cost-sensitive analysis.
+## Technology
 
-## 6. Project Structure
+Python, pandas, NumPy, scikit-learn, statsmodels, SciPy, matplotlib, Git and GitHub.
 
-```text
-credit-risk-model-validation/
-│
-├── data/
-│   ├── raw/
-│   └── processed/
-│
-├── notebooks/
-│
-├── src/
-│
-├── models/
-│
-├── reports/
-│
-├── dashboard/
-│
-├── tests/
-│
-├── README.md
-└── requirements.txt
-```
+## Author
 
-## 7. Expected Outcomes
+Nayana Jagadish
 
-- A reproducible credit risk modelling pipeline.
-- Comparative evaluation of statistical and machine learning models.
-- A documented model validation framework.
-- Financial decisioning analysis.
-- An interactive model validation dashboard.
-- Technical documentation and business recommendations.
-
-## 8. Limitations
-
-The project uses a publicly available historical dataset. Results should not be interpreted as evidence of current banking portfolio performance or production model suitability.
-
-Model limitations, assumptions, data quality issues and validation constraints will be documented throughout development.
-
-## 9. Project Status
-
-**Status: In Progress**
-
-This project is being developed as an independent educational portfolio project.
-
----
-
-**Author:** Nayana Jagadish  
-**Focus Areas:** Financial Data Science | Credit Risk Analytics | Model Validation | Business Analytics
+**Focus:** Financial Data Science · Credit Risk Analytics · Model Validation · Business Analytics
