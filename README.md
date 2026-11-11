@@ -1,6 +1,6 @@
 # SBA 7(a) Credit-Risk Analytics and Model Validation
 
-**Status:** reproducible research release candidate — **not production-ready**, not an approved underwriting score.
+**Status:** published research prototype, with trained models and frozen-cohort validation. **Independent end-to-end reproduction from raw data remains unverified.** Not production-ready and not an approved underwriting score.
 
 ## Research goal
 Assess whether features in a public historical SBA 7(a) FOIA snapshot can rank **retrospective 120-month charge-off outcomes** in a deliberately selected strict cohort. The study explicitly addresses temporal validation, suspicious term-related signals, potential leakage, feature provenance and calibration. It does **not** establish that the features would have been available exactly as recorded at origination.
@@ -44,4 +44,4 @@ To independently re-fit the frozen model, obtain the same **enriched strict FY20
 
 The strict research cohort is selected using retrospective loan status/term validity, which can introduce selection bias even though term is excluded from the predictors. Source features lack independently verified approval-time versions. Risk calibration is imperfect and subgroup differences remain. No live credit decisions should use this model.
 
-**Publication checklist:** run `python tools/validate_release.py`, review public-data licensing/terms, select a code license, confirm that `.gitignore` excludes raw records, and check all narrative claims against the manifests. See `docs/OPEN_QUESTIONS.md`.
+**Further work:** independently test source-to-model reproducibility (including compressed-file checksum behaviour), review public-data terms and code licensing, confirm approval-time feature provenance, and check all narrative claims against the manifests. See `docs/OPEN_QUESTIONS.md`.
