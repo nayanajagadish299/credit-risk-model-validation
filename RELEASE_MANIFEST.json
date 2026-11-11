@@ -46,6 +46,16 @@
       "sha256": "f74aafa90eadb7365d6f2d15311a77dd48064015d773b78f855e042367046d98"
     },
     {
+      "path": "docs/TECHNICAL_REPORT.md",
+      "bytes": 17390,
+      "sha256": "560c8dc82799338b5e380ab5beec631e4ebbe616d1e8f856c9e4b730fddd5c72"
+    },
+    {
+      "path": "docs/TECHNICAL_REPORT.pdf",
+      "bytes": 185353,
+      "sha256": "5332997677ddf5cc7f1341d4698e991d99d097b9e198503094ac842a27441e34"
+    },
+    {
       "path": "figures/fy2014_hgb_calibration.png",
       "bytes": 77456,
       "sha256": "f9fbf5241dc0def08fc948428b00930e1f78c04bb8dc4bf30fd8584373a14bb5"
@@ -181,6 +191,6 @@
       "sha256": "9f785cb7abaf361e69410070fcac7bba3cacbc4adfe0504ca3980f86a5fd602e"
     }
   ],
-  "manifest_updated_at_utc": "2026-11-11T11:58:10.073013+00:00",
+  "manifest_updated_at_utc": "2026-11-11T12:08:59.779160+00:00",
   "checksum_policy": "LF-canonicalized text; raw bytes for binary assets"
 }
