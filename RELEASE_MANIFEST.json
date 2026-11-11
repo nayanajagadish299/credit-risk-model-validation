@@ -37,8 +37,8 @@
     },
     {
       "path": "docs/REPRODUCE.md",
-      "bytes": 5617,
-      "sha256": "01f109bfdf2ddecabac800b8ad026a86e75dfe982fd30535fc27e67f2bce9c3f"
+      "bytes": 6728,
+      "sha256": "e32c3a623fa749fd0da1ae72a494c2085c8f5a4c19dcfc91f02db9337c07ed1c"
     },
     {
       "path": "docs/TASK6A_METHOD.md",
@@ -114,6 +114,11 @@
       "path": "requirements.txt",
       "bytes": 184,
       "sha256": "3999cd82ad1aa427281e2981a7cade1f123df53ed320caecdc21d2afdebad97f"
+    },
+    {
+      "path": "results/portable_report_checksums.json",
+      "bytes": 10909,
+      "sha256": "7cf86d11c16a194ea6b98b3f7c89ff62e95bceee3d6cc16a7a97fc2aec7a5dc9"
     },
     {
       "path": "results/task5d2_manifest.json",
@@ -411,6 +416,11 @@
       "sha256": "01396363a1cef3ba167115f971ec78dd6067aaf9209c2f56b73a8a36495e499a"
     },
     {
+      "path": "tests/test_portable_report_checksums.py",
+      "bytes": 2592,
+      "sha256": "2b1e12ba9ce2c204027a576aa7a9d3566abac57ab8dfb3055ba73b767738478d"
+    },
+    {
       "path": "tests/test_release_manifest.py",
       "bytes": 1159,
       "sha256": "2a8dbd025a53dd5c3498f7456d79d769231993e61fa647a2598230bfddece8ec"
@@ -447,20 +457,25 @@
     },
     {
       "path": "tools/refresh_release_manifest.py",
-      "bytes": 3884,
-      "sha256": "92a099ad81e7269f6b63fe2495fae993a534f388f3a5d439086219f953d24386"
+      "bytes": 4095,
+      "sha256": "f5bcb7511f6ee9df668347fd14a29f04ba766b1601d207cf2f51630ca8ea8377"
     },
     {
       "path": "tools/sba_release_allowlist.txt",
-      "bytes": 3838,
-      "sha256": "fa37e4ec03e41ad7ce4b7bf74f240a83f370c1ad349cba8d4f254c7636272a2f"
+      "bytes": 3959,
+      "sha256": "d55a8317d03409afd590378d78e98e07a5b87e8f363c7f5ace34e19c3362a3af"
     },
     {
       "path": "tools/validate_release.py",
-      "bytes": 2965,
-      "sha256": "9f785cb7abaf361e69410070fcac7bba3cacbc4adfe0504ca3980f86a5fd602e"
+      "bytes": 4474,
+      "sha256": "57d424aa4125e59e1c2e5162c05611565bcf9d9f37d5ac86d82cbeb00e3881b7"
+    },
+    {
+      "path": "tools/verify_portable_report_checksums.py",
+      "bytes": 4163,
+      "sha256": "31e5f220b84bd6bfaf33911f8dd3714df6c8a310d13f2ee29cd9f128358621e9"
     }
   ],
-  "manifest_updated_at_utc": "2026-11-11T20:07:44.727483+00:00",
-  "checksum_policy": "LF-canonicalized text; raw bytes for binary assets"
+  "manifest_updated_at_utc": "2026-11-11T20:27:47.728734+00:00",
+  "checksum_policy": "Release checksums: CRLF-to-LF canonicalized text and raw-byte binary assets. Scientific source-run hashes remain unchanged; portable aggregate report hashes are recorded separately in results/portable_report_checksums.json."
 }

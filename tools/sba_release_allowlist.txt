@@ -34,6 +34,7 @@ tests/test_task6c2_freeze_evaluate.py
 tests/test_task6d1_gross_severity.py
 tests/test_task6d1_asof_sensitivity.py
 tests/test_release_manifest.py
+tests/test_portable_report_checksums.py
 models/B_extended_no_term_LogisticRegression.joblib
 models/B_extended_no_term_HistGradientBoosting.joblib
 results/task5d2_manifest.json
@@ -50,6 +51,7 @@ results/task5e1_manifest.json
 results/task5e1_feature_provenance_register.csv
 results/task5e1_frozen_model_metrics.csv
 results/task5e1_validation_risk_deciles.csv
+results/portable_report_checksums.json
 results/task6a/task6a_manifest.json
 results/task6a/yearly_summary.csv
 results/task6a/status_by_fy.csv
@@ -89,4 +91,5 @@ figures/term_free_pr_auc_by_year.png
 figures/fy2014_hgb_calibration.png
 tools/validate_release.py
 tools/refresh_release_manifest.py
+tools/verify_portable_report_checksums.py
 tools/sba_release_allowlist.txt

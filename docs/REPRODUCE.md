@@ -64,6 +64,18 @@ python .\tools\validate_release.py
 
 The refresher rejects common raw/loan-level patterns and does not scan whole directories into the release. This step prepares checksums; it does not approve, commit or publish the release. The old report PDF is archived as a legacy file because no PDF renderer was available; it must not be distributed as the current report.
 
+### Portable checksums for aggregate text reports
+
+Scientific run manifests retain their original raw-byte SHA-256 values and provenance. These values are not rewritten to accommodate Git line-ending conversion. `results/portable_report_checksums.json` records those raw hashes alongside a separate portable SHA-256 for each of the 21 Task 6B, Task 6C and Task 6D.1 aggregate reports. The portable calculation replaces CRLF bytes with LF bytes only; all other bytes are hashed unchanged. A report passes after Windows-to-Unix line-ending conversion only when its normalized content matches the recorded portable hash. Any content change still fails verification.
+
+Verify the curated reports with:
+
+```powershell
+python .\tools\verify_portable_report_checksums.py
+```
+
+Binary files, including frozen `.joblib` model artifacts, continue to use raw-byte SHA-256 checks against their freeze manifests. Do not refresh the portable report index as part of routine verification; regenerate a new reviewed index only when intentionally publishing changed aggregate reports, while preserving the original run evidence.
+
 ## Environment and licensing
 
 The historical freeze recorded Python 3.10.2, numpy 2.2.6, pandas 2.3.3, scikit-learn 1.7.2, scipy 1.15.3 and joblib 1.4.2 (see `requirements.txt`). Dependencies keep their own licenses and notices. SBA describes the data resource as a U.S. Government Work. No repository code license has been selected; see the license recommendation in `TASK6_PUBLICATION_AUDIT.md`. Do not treat a future code license as applying to SBA data, third-party packages or trained model files.

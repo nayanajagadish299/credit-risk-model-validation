@@ -78,7 +78,11 @@ def main() -> None:
         })
     manifest["review_status"] = "sba_task6_publication_candidate_reviewed_aggregate_only"
     manifest["manifest_updated_at_utc"] = datetime.now(timezone.utc).isoformat()
-    manifest["checksum_policy"] = "LF-canonicalized text; raw bytes for binary assets"
+    manifest["checksum_policy"] = (
+        "Release checksums: CRLF-to-LF canonicalized text and raw-byte binary assets. "
+        "Scientific source-run hashes remain unchanged; portable aggregate report hashes "
+        "are recorded separately in results/portable_report_checksums.json."
+    )
     MANIFEST.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"Refreshed release manifest from explicit allowlist: {len(paths)} files.")
 

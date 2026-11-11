@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "purpose": "Portable verification index for aggregate text outputs; source-run manifests remain unchanged.",
+  "normalization": "CRLF bytes replaced by LF bytes; all other bytes unchanged",
+  "raw_hash_provenance": "source_run_raw_byte_sha256 is copied verbatim from the referenced historical run manifest. These original hashes are not rewritten.",
+  "portable_hash_meaning": "portable_lf_sha256 hashes the report bytes after CRLF-to-LF normalization. Any other content change fails verification.",
+  "reports": [
+    {
+      "report_path": "results/task6b_verified/outcome_reconciliation_by_fy.csv",
+      "source_run_manifest": "results/task6b_verified/task6b_manifest.json",
+      "source_manifest_key": "output_sha256",
+      "source_manifest_report_key": "outcome_reconciliation_by_fy.csv",
+      "source_run_raw_byte_sha256": "9e16a44ecc1aa428fe9084d7bc0cf622c2d0700afdc08a81cdee539692d48945",
+      "portable_lf_sha256": "33f2f5f08cb86730a348333f36d42d05b55d61d0e9f329e987bd2863f9d2d9d9"
+    },
+    {
+      "report_path": "results/task6b_verified/exclusions_by_fy.csv",
+      "source_run_manifest": "results/task6b_verified/task6b_manifest.json",
+      "source_manifest_key": "output_sha256",
+      "source_manifest_report_key": "exclusions_by_fy.csv",
+      "source_run_raw_byte_sha256": "8e8b719fd3cd9e0795b78029ac1cfe8f0a9ee76b8e372a03d3721bebf0c803d0",
+      "portable_lf_sha256": "04b51b505bb5da8ddd0f7c54a6f7a2b5ae29b2f3204a8052effadb5569f8ea72"
+    },
+    {
+      "report_path": "results/task6b_verified/quality_flag_overlaps.csv",
+      "source_run_manifest": "results/task6b_verified/task6b_manifest.json",
+      "source_manifest_key": "output_sha256",
+      "source_manifest_report_key": "quality_flag_overlaps.csv",
+      "source_run_raw_byte_sha256": "78be5ea7ebc2f3442bb0823eec3381161fad419f098b18ff733c50a2764c9a73",
+      "portable_lf_sha256": "8965ae4623a2963a8f91caabaac450faad2581fb0e6bf3eb1c4d2e392e0c5894"
+    },
+    {
+      "report_path": "results/task6b_verified/disbursement_diagnostics.csv",
+      "source_run_manifest": "results/task6b_verified/task6b_manifest.json",
+      "source_manifest_key": "output_sha256",
+      "source_manifest_report_key": "disbursement_diagnostics.csv",
+      "source_run_raw_byte_sha256": "82435777974429a3cfd3d7faa1caa9d50db1c88d69267d180e6045a8cc83e5ad",
+      "portable_lf_sha256": "5c6a859324d9e30b6b471ed1580376cd97e4ac18fbf6beb3222f00ae712023a0"
+    },
+    {
+      "report_path": "results/task6b_verified/outcome_timing_status.csv",
+      "source_run_manifest": "results/task6b_verified/task6b_manifest.json",
+      "source_manifest_key": "output_sha256",
+      "source_manifest_report_key": "outcome_timing_status.csv",
+      "source_run_raw_byte_sha256": "cf0bb0355faa6001657b9673876fd22a70fafade6bf49bf7c4c0863cd997c061",
+      "portable_lf_sha256": "17f9de97f530cd25806bd9249c9bdddd391e45e1ae71a80acc3a04c29e3ac757"
+    },
+    {
+      "report_path": "results/task6b_verified/predictor_missingness.csv",
+      "source_run_manifest": "results/task6b_verified/task6b_manifest.json",
+      "source_manifest_key": "output_sha256",
+      "source_manifest_report_key": "predictor_missingness.csv",
+      "source_run_raw_byte_sha256": "bb08e4d1b7645873707155a630847855db906e5d9bcdf587d68487c1d8cbc658",
+      "portable_lf_sha256": "606eaeb6c5a6a8f6b3dc7e2476de693e0ac8b73f3719b78e355c569dcfc124e1"
+    },
+    {
+      "report_path": "results/task6c_development/validation_metrics.csv",
+      "source_run_manifest": "results/task6c_development/task6c_development_manifest_release.json",
+      "source_manifest_key": "aggregate_output_sha256",
+      "source_manifest_report_key": "validation_metrics.csv",
+      "source_run_raw_byte_sha256": "1fe439ad783311fba129391ddd9aa75cd4cc7597879af3b67f9dd28dfe434a4f",
+      "portable_lf_sha256": "366ca4a91944b80222b1a2c4e3d74a1882a7b332851b0f979a8f6a3bfc2dd974"
+    },
+    {
+      "report_path": "results/task6c_development/quantile_calibration.csv",
+      "source_run_manifest": "results/task6c_development/task6c_development_manifest_release.json",
+      "source_manifest_key": "aggregate_output_sha256",
+      "source_manifest_report_key": "quantile_calibration.csv",
+      "source_run_raw_byte_sha256": "ecdcc38cd8fc8fbbddd2890e6b5436a69505302ea3447b5225886d86cb7e7615",
+      "portable_lf_sha256": "f0459b9819a5d731b5e1526982814f8d321ab3cce0c68643b02a4c13ce4649e9"
+    },
+    {
+      "report_path": "results/task6c_development/operating_points.csv",
+      "source_run_manifest": "results/task6c_development/task6c_development_manifest_release.json",
+      "source_manifest_key": "aggregate_output_sha256",
+      "source_manifest_report_key": "operating_points.csv",
+      "source_run_raw_byte_sha256": "95fe242a6ea8c91bec0cd9657a3a3325f92b1886ed12662a677339fdee8f5e5b",
+      "portable_lf_sha256": "05b53f75180d34321e760aef1795ad9f374a355a43548623d3c94debcb996ebe"
+    },
+    {
+      "report_path": "results/task6c_fy2024_evaluation/fy2024_model_comparison.csv",
+      "source_run_manifest": "results/task6c_fy2024_evaluation/evaluation_manifest.json",
+      "source_manifest_key": "sha256_outputs",
+      "source_manifest_report_key": "fy2024_model_comparison.csv",
+      "source_run_raw_byte_sha256": "4b4f39a9dc6b1eea9424712fe2988f0c44d7d6246083df09e96a5ecc6a314c38",
+      "portable_lf_sha256": "8cc4fd74c24b7d5d48277c3113b08e1fe0d1d99b9646ba2a21f3b1e058dfb2bb"
+    },
+    {
+      "report_path": "results/task6c_fy2024_evaluation/fy2024_quantile_calibration.csv",
+      "source_run_manifest": "results/task6c_fy2024_evaluation/evaluation_manifest.json",
+      "source_manifest_key": "sha256_outputs",
+      "source_manifest_report_key": "fy2024_quantile_calibration.csv",
+      "source_run_raw_byte_sha256": "618f7cfcb9756669530107353c72c6dc63c6a1bfb502f356f9dc7d035342ef60",
+      "portable_lf_sha256": "fc77d8b1a4047fc164f311f637f041c6d15d1b8c60b389c680e7cb81f1b00b75"
+    },
+    {
+      "report_path": "results/task6c_fy2024_evaluation/fy2024_operating_points.csv",
+      "source_run_manifest": "results/task6c_fy2024_evaluation/evaluation_manifest.json",
+      "source_manifest_key": "sha256_outputs",
+      "source_manifest_report_key": "fy2024_operating_points.csv",
+      "source_run_raw_byte_sha256": "7e148eaa789f39b1171e1fc4541904be8bc200fdeee4d8bd8b83915ef9511f9e",
+      "portable_lf_sha256": "bc9b3fb45ec03a3ba193265c58668049dd3f5b51bf5912041eafe73a50eb6b8f"
+    },
+    {
+      "report_path": "results/task6c_fy2024_evaluation/paired_bootstrap_comparison.json",
+      "source_run_manifest": "results/task6c_fy2024_evaluation/evaluation_manifest.json",
+      "source_manifest_key": "sha256_outputs",
+      "source_manifest_report_key": "paired_bootstrap_comparison.json",
+      "source_run_raw_byte_sha256": "095381a8b60452b940c14e3e2eb9c50755c0b56b600eac0522bcb9ad9848279d",
+      "portable_lf_sha256": "9321d2c358f8b4b8c68cda1a036a35aa4c7d0727f505d4772d681e3d914ec7e5"
+    },
+    {
+      "report_path": "results/task6c_fy2024_evaluation/FY2023_vs_FY2024_changes.csv",
+      "source_run_manifest": "results/task6c_fy2024_evaluation/evaluation_manifest.json",
+      "source_manifest_key": "sha256_outputs",
+      "source_manifest_report_key": "FY2023_vs_FY2024_changes.csv",
+      "source_run_raw_byte_sha256": "f93ea2cb2d878b0379495bc7c5c7104f96584364b7f220ec4ffb70e5f2dd2916",
+      "portable_lf_sha256": "18ba6bfece6d994fac2fc09d4e800ea53cc07592ae57e9ddc86b20a02a8c7672"
+    },
+    {
+      "report_path": "results/task6d1_severity/gross_chargeoff_amount_distribution.csv",
+      "source_run_manifest": "results/task6d1_severity/task6d1_manifest.json",
+      "source_manifest_key": "report_sha256",
+      "source_manifest_report_key": "gross_chargeoff_amount_distribution.csv",
+      "source_run_raw_byte_sha256": "b6ec914d4958d8a409699b4a4ce68300ffd2d62d86c8ae21bacc1860b73bafa6",
+      "portable_lf_sha256": "9d7b65b09fc8f8d720106a375a8d0fd04fca4d8f4a2ee95d4fee2d97ad9f64f1"
+    },
+    {
+      "report_path": "results/task6d1_severity/gross_chargeoff_to_approval_ratio.csv",
+      "source_run_manifest": "results/task6d1_severity/task6d1_manifest.json",
+      "source_manifest_key": "report_sha256",
+      "source_manifest_report_key": "gross_chargeoff_to_approval_ratio.csv",
+      "source_run_raw_byte_sha256": "9c06b973b3f0f1812dafc380fe282bdc86f33607aadba9f94064119edd7272fa",
+      "portable_lf_sha256": "5f55c90d4affc00d9f04baa2709b20a3fcb715cf917c11c51fb80be53fe4bbef"
+    },
+    {
+      "report_path": "results/task6d1_severity/vintage_by_chargeoff_calendar_year.csv",
+      "source_run_manifest": "results/task6d1_severity/task6d1_manifest.json",
+      "source_manifest_key": "report_sha256",
+      "source_manifest_report_key": "vintage_by_chargeoff_calendar_year.csv",
+      "source_run_raw_byte_sha256": "480dcbda578c67319f26102f17c129e60c8b3d9b6f1560677c8f7fdfac2c981d",
+      "portable_lf_sha256": "4fc47d20d354cf162eb143f988074717cf3a3eb4d68ba0c512fcb0ecb45e20a1"
+    },
+    {
+      "report_path": "results/task6d1_severity/quality_flags.csv",
+      "source_run_manifest": "results/task6d1_severity/task6d1_manifest.json",
+      "source_manifest_key": "report_sha256",
+      "source_manifest_report_key": "quality_flags.csv",
+      "source_run_raw_byte_sha256": "447ba886f55086d4a0e99a912a41b60fbd487431261074d099150f40e591d2f3",
+      "portable_lf_sha256": "2e9d9626ae52ac055013206f2de77a0ba9461117d84ee01859b794f3a011f633"
+    },
+    {
+      "report_path": "results/task6d1_severity/overall_reconciliation.csv",
+      "source_run_manifest": "results/task6d1_severity/task6d1_manifest.json",
+      "source_manifest_key": "report_sha256",
+      "source_manifest_report_key": "overall_reconciliation.csv",
+      "source_run_raw_byte_sha256": "0dca9ccdffb0b58cf5336813a24824582fce7da5ff6f9a716ebdb778a96f2e62",
+      "portable_lf_sha256": "720d71606c220b5c31d182883bf549c1e36f657c1afba173eb93ed272d6daf45"
+    },
+    {
+      "report_path": "results/task6d1_asof_sensitivity/severity_comparison.csv",
+      "source_run_manifest": "results/task6d1_asof_sensitivity/task6d1_asof_sensitivity_manifest.json",
+      "source_manifest_key": "report_sha256",
+      "source_manifest_report_key": "severity_comparison.csv",
+      "source_run_raw_byte_sha256": "bdfd41600b67a4bcd6f5a77941a2f14c7f1104812420e997235dfddd1480e6d1",
+      "portable_lf_sha256": "b14edf19afe60fa4cf6d06100b961f93127e621d1e440520fd91fe8f8d777802"
+    },
+    {
+      "report_path": "results/task6d1_asof_sensitivity/quality_flags_comparison.csv",
+      "source_run_manifest": "results/task6d1_asof_sensitivity/task6d1_asof_sensitivity_manifest.json",
+      "source_manifest_key": "report_sha256",
+      "source_manifest_report_key": "quality_flags_comparison.csv",
+      "source_run_raw_byte_sha256": "50c35452146ee0b3118a10e24f7c9bc68cd26377b738bf288cec80e73f040bbc",
+      "portable_lf_sha256": "f3d743b0127155852297888c4976b1241c2d307da33d55adde6cefe8b9425200"
+    }
+  ]
+}
