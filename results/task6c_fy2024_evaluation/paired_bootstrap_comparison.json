@@ -1,0 +1,18 @@
+{
+  "FY2023": {
+    "difference_hgb_minus_logistic": 0.004315331845339422,
+    "ci_95_low": 0.0007162445070649418,
+    "ci_95_high": 0.009323831792200437,
+    "replicates_requested": 1000,
+    "replicates_valid": 1000,
+    "seed": 20261113
+  },
+  "FY2024": {
+    "difference_hgb_minus_logistic": -0.000989467602727041,
+    "ci_95_low": -0.00242825914609923,
+    "ci_95_high": 0.0007465139032933957,
+    "replicates_requested": 1000,
+    "replicates_valid": 1000,
+    "seed": 20261113
+  }
+}

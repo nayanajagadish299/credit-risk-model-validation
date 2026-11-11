@@ -1,0 +1,50 @@
+{
+  "version": "task6c2-evaluation-v1",
+  "freeze_manifest_sha256": "ccd77c26fe3f0cd1388a553b6a57816697ccb11680544847785a2590f4f40157",
+  "source_sha256": "b56194df6da2c22c318fcfc9f8f087152bc54e2be391c4cc70316514c37ef8e6",
+  "FY2024_rows": 60114,
+  "FY2024_positive": 417,
+  "FY2024_negative": 59697,
+  "scores_run_once": true,
+  "models_scored": [
+    "constant_prevalence",
+    "regularized_logistic",
+    "conservative_hist_gradient_boosting"
+  ],
+  "paired_bootstrap": {
+    "replicates": 1000,
+    "seed": 20261113
+  },
+  "checks": {
+    "freeze_verified_before_score": "PASS",
+    "FY2024_cohort_counts": "PASS",
+    "same_eligible_observations": "PASS",
+    "no_refit_or_retune": "PASS",
+    "FY2024_not_used_for_selection": "PASS",
+    "reports_hashed": "PASS",
+    "local_prediction_file_valid": "FAIL"
+  },
+  "sha256_outputs": {
+    "fy2024_model_comparison.csv": "4b4f39a9dc6b1eea9424712fe2988f0c44d7d6246083df09e96a5ecc6a314c38",
+    "fy2024_quantile_calibration.csv": "618f7cfcb9756669530107353c72c6dc63c6a1bfb502f356f9dc7d035342ef60",
+    "fy2024_operating_points.csv": "7e148eaa789f39b1171e1fc4541904be8bc200fdeee4d8bd8b83915ef9511f9e",
+    "paired_bootstrap_comparison.json": "095381a8b60452b940c14e3e2eb9c50755c0b56b600eac0522bcb9ad9848279d",
+    "FY2023_vs_FY2024_changes.csv": "f93ea2cb2d878b0379495bc7c5c7104f96584364b7f220ec4ffb70e5f2dd2916"
+  },
+  "FY2024_is_later_year_not_pristine_blind_test": true,
+  "invalid_artifacts": {
+    "fy2024_predictions_local.csv.gz": {
+      "valid": false,
+      "sha256": "aa8ad4bec20a5e74c04850b48159f107b9cd8c7f74b332244d248dfdc176ab3c",
+      "reason": "Only three rows contain truncated NumPy array strings; aligned per-loan prediction arrays were not retained. Do not use or publish.",
+      "excluded_from_curated_outputs": true
+    }
+  },
+  "curated_aggregate_outputs": [
+    "fy2024_model_comparison.csv",
+    "fy2024_quantile_calibration.csv",
+    "fy2024_operating_points.csv",
+    "paired_bootstrap_comparison.json",
+    "FY2023_vs_FY2024_changes.csv"
+  ]
+}

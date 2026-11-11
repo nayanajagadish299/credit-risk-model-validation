@@ -1,0 +1,2 @@
+﻿raw_rows,duplicate_excess_rows,unique_rows,unique_chgoff_records,missing_or_invalid_chargeoff_date,valid_gross_chargeoff_amount_n,valid_ratio_n,invalid_ratio_n,gross_chargeoff_amount_exceeds_approval,mean_gross_chargeoff_to_approval_ratio,denominator
+403644,396,403248,8202,11,8202,8202,0,430,0.8614451721889184,All exact-row-deduplicated CHGOFF-status records; amount and ratio valid counts shown separately.

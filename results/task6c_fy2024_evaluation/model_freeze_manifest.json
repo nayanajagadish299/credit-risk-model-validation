@@ -1,0 +1,85 @@
+{
+  "freeze_version": "task6c2-freeze-v1",
+  "source_sha256": "b56194df6da2c22c318fcfc9f8f087152bc54e2be391c4cc70316514c37ef8e6",
+  "split": {
+    "train": [
+      2020,
+      2021,
+      2022
+    ],
+    "development_validation": [
+      2023
+    ],
+    "reserved_evaluation": [
+      2024
+    ]
+  },
+  "selected_primary": "conservative_hist_gradient_boosting",
+  "benchmark": "regularized_logistic",
+  "reference": "constant_prevalence",
+  "rationale": "Selected provisionally on FY2023 PR-AUC, Brier and log loss; no model changes after selection.",
+  "FY2024_predictive_results_used_for_selection": false,
+  "FY2024_previous_aggregate_cohort_counts_seen": true,
+  "training_prevalence": 0.0036970375054725885,
+  "validation_prevalence": 0.0094752766940043,
+  "prevalence_ratio_validation_to_train": 2.562937671034821,
+  "FY2023_paired_bootstrap_HGB_minus_logistic_AP": {
+    "difference_hgb_minus_logistic": 0.004315331845339422,
+    "ci_95_low": 0.0007162445070649418,
+    "ci_95_high": 0.009323831792200437,
+    "replicates_requested": 1000,
+    "replicates_valid": 1000,
+    "seed": 20261113
+  },
+  "FY2023_metrics": {
+    "conservative_hist_gradient_boosting": {
+      "average_precision": 0.0322799737386207,
+      "roc_auc": 0.7885973893174634,
+      "brier_score": 0.0092710483911355,
+      "log_loss": 0.0484407370000788
+    },
+    "regularized_logistic": {
+      "average_precision": 0.0279646418932813,
+      "roc_auc": 0.7895284550717393,
+      "brier_score": 0.0094427615622797,
+      "log_loss": 0.0497005855353771
+    },
+    "constant_prevalence": {
+      "average_precision": 0.0094752766940043,
+      "roc_auc": 0.5,
+      "brier_score": 0.0094188838736962,
+      "log_loss": 0.0567324598486473
+    }
+  },
+  "model_sha256": {
+    "models/conservative_hist_gradient_boosting.joblib": "5cfdc0947fe45755eeb09f5ea6384c4e5e117e7ac65c3c6e096e1c685dfb3231",
+    "models/regularized_logistic.joblib": "53a7cbfeb26ec64dc679e17b7f8dead3204087bd1b4ff4e11366dea721324e95"
+  },
+  "feature_allowlist": [
+    "log_gross_approval",
+    "guarantee_share",
+    "initial_interest_rate",
+    "naics2",
+    "project_state",
+    "business_type",
+    "processing_method",
+    "revolver_status",
+    "fixed_or_variable_interest_ind",
+    "collateral_ind"
+  ],
+  "preprocessing": "Pipelines frozen in joblib artifacts: median imputation + missing indicators and standard scaling for numeric features; most-frequent imputation and one-hot encoding for categoricals.",
+  "packages": {
+    "python": "3.10.2",
+    "pandas": "2.3.3",
+    "numpy": "2.2.6",
+    "scikit_learn": "1.7.2",
+    "joblib": "1.4.2"
+  },
+  "random_seed": 20261112,
+  "checks": {
+    "development_manifest": "PASS",
+    "model_artifact_hashes": "PASS",
+    "FY2023_prediction_alignment": "PASS",
+    "FY2024_not_used_for_selection": "PASS"
+  }
+}

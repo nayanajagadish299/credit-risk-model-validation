@@ -1,0 +1,58 @@
+{
+  "study": "Task 6D.1 gross charge-off severity, descriptive only",
+  "source_file": "FOIA_7a_FY2020_Present_asof_260930.csv",
+  "source_sha256": "b56194df6da2c22c318fcfc9f8f087152bc54e2be391c4cc70316514c37ef8e6",
+  "snapshot_date": "2026-09-30",
+  "source_rows": 403644,
+  "duplicate_excess_rows": 396,
+  "unique_rows": 403248,
+  "status_counts": {
+    "PIF": 74558,
+    "EXEMPT": 246356,
+    "CANCLD": 52657,
+    "CHGOFF": 8202,
+    "COMMIT": 21475
+  },
+  "chgoff_records": 8202,
+  "missing_chargeoff_dates": 11,
+  "amount_valid_n": 8202,
+  "ratio_valid_n": 8202,
+  "ratio_denominator": "CHGOFF rows with finite GrossChargeOffAmount >= 0 and finite GrossApproval > 0",
+  "minimum_comparison_group_n": 30,
+  "suppressed_group_counts": {
+    "APPROVAL_FY": 1,
+    "CHARGEOFF_CALENDAR_YEAR": 2,
+    "NAICS2": 3,
+    "PROJECT_STATE": 15
+  },
+  "quality_flags": {
+    "gross_chargeoff_exceeds_gross_approval": 430,
+    "zero_gross_chargeoff_amount": 12,
+    "missing_chargeoff_date": 11,
+    "chargeoff_after_snapshot": 18
+  },
+  "checks": {
+    "source_checksum": "PASS",
+    "source_raw_row_count": "PASS",
+    "exact_row_deduplication": "PASS",
+    "chgoff_records_reconcile": "PASS",
+    "missing_chargeoff_dates_reconcile": "PASS",
+    "group_suppression_min_n": "PASS",
+    "aggregate_reports_hashed": "PASS"
+  },
+  "report_sha256": {
+    "gross_chargeoff_amount_distribution.csv": "b6ec914d4958d8a409699b4a4ce68300ffd2d62d86c8ae21bacc1860b73bafa6",
+    "gross_chargeoff_to_approval_ratio.csv": "9c06b973b3f0f1812dafc380fe282bdc86f33607aadba9f94064119edd7272fa",
+    "vintage_by_chargeoff_calendar_year.csv": "480dcbda578c67319f26102f17c129e60c8b3d9b6f1560677c8f7fdfac2c981d",
+    "quality_flags.csv": "447ba886f55086d4a0e99a912a41b60fbd487431261074d099150f40e591d2f3",
+    "overall_reconciliation.csv": "0dca9ccdffb0b58cf5336813a24824582fce7da5ff6f9a716ebdb778a96f2e62"
+  },
+  "interpretation_limits": [
+    "GrossChargeOffAmount is not recovery-adjusted loss, LGD, or EAD.",
+    "GrossChargeOffAmount/GrossApproval is only a gross charge-off-to-approval ratio, never LGD.",
+    "Approval-vintage comparisons face unequal loan ages and right-censoring; charge-off calendar year is reported separately.",
+    "Recoveries are incomplete/unavailable; this is not net economic loss.",
+    "Selection on CHGOFF status and retrospective FOIA visibility can bias severity comparisons.",
+    "No flagged amount is capped or silently removed; validity-specific denominators are explicit."
+  ]
+}

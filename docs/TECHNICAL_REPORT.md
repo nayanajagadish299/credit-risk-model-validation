@@ -1,143 +1,166 @@
-# SBA 7(a) Credit-Risk Analytics and Model Validation
+﻿# SBA 7(a) Credit-Risk Analytics and Model Validation
 
-**Technical report | Project A | 11 November 2026**  
-**Release status:** Published retrospective research prototype. Independent raw-source-to-model reproduction is not yet verified. **Not for lending decisions.**
+**Canonical technical report | Project A | 12 November 2026**
+**Status:** Retrospective research prototype. The Markdown file is the canonical report. The prior PDF has been archived as a legacy copy and is not part of the release candidate; PDF regeneration is pending a renderer. No model is approved for lending decisions.
 
 ## Executive summary
 
-This project examines whether variables in a public, historical U.S. Small Business Administration (SBA) 7(a) Freedom of Information Act (FOIA) extract can distinguish loans with a **retrospectively observed charge-off within 120 months of approval**. The focus is not solely prediction: the investigation addresses target construction, data integrity, chronological validation, feature provenance, unusually strong loan-term associations, calibration, and reproducibility.
+Project A contains two distinct experiments on SBA 7(a) public FOIA data. The historical experiment studies retrospective charge-off within 120 months in a selected FY2010–FY2014 cohort. The contemporary experiment describes FY2020–FY2026 approvals and constructs a separate retrospective 24-calendar-month charge-off cohort for FY2020–FY2024, followed by frozen-model development and later-year evaluation. Their populations, horizons, source windows and metrics must not be combined.
 
-The source is a **30 September 2026 retrospective SBA snapshot**, not an immutable approval-time feature store. From an audited FY2010–FY2014 population of **242,726 unique records** after removing **799 exact duplicate excess rows**, the established strict modeling cohort contains **210,516 loans**, including **13,634 charge-offs under the project’s fixed-horizon target**. These counts refer to different audit populations and should not be conflated.
+The historical source-lineage work found a strong unexplained association between recorded term patterns and the historical outcome. Term and term-derived predictors were excluded from the frozen pipelines. Historical FY2014 average precision was 0.109897 for HGB and 0.106057 for Logistic Regression. The paired HGB-minus-logistic FY2014 average-precision interval included zero, so evidence for a PR-AUC advantage was uncertain.
 
-The final development comparison fits **164,628 FY2010–FY2013 loans** (10,856 charge-off events) and evaluates on **45,888 FY2014 loans** (2,778 events; 6.05%). The provisional primary **Extended HistGradientBoosting** model achieves **0.1099 average precision (PR-AUC), 0.6695 ROC-AUC, and 0.05571 Brier score** on FY2014. An Extended Logistic Regression comparator achieves **0.1061, 0.6557, and 0.05587**, respectively. These are **development-validation results**, not unbiased performance estimates on a pristine holdout.
+In the contemporary study, the September 30, 2026 source contained 403,644 rows; exact-row deduplication left 403,248. Task 6B selected 233,692 eligible FY2020–FY2024 loans from 269,122 candidates, with 1,349 positives and 232,343 negatives. HGB was selected provisionally using FY2023 development results. On FY2024, Logistic Regression had slightly higher average precision and ROC-AUC, while HGB had lower Brier score and log loss. The paired FY2024 average-precision difference interval includes zero. This ranking change is descriptive; its cause is not established. FY2024 is a later-year temporal evaluation, not a pristine blind holdout, because its aggregate cohort counts had been reviewed earlier.
 
-An unexpectedly strong association between recorded loan-term patterns and retrospective outcomes prompted a source-lineage and event-timing investigation. Term-derived predictors were **excluded conservatively** from the retained models. The analysis supports a useful research demonstration of risk ranking and model governance; it does **not** establish approval-time feature availability, causal relationships, deployment readiness, or generalization to all SBA originations.
+The severity study measured gross charge-off amounts, not net losses. The strict as-of sensitivity excludes 18 charge-offs dated after the snapshot and 11 charge-offs with no usable date. It therefore contains 8,173 records, compared with 8,202 in the original severity population. Gross charge-off divided by gross approval is only a descriptive ratio and is not LGD.
 
-## 1. Research question and scope
+All research uses retrospective records. Eligibility depends on later status/date fields; feature values lack independently verified approval-time versions; positive outcomes are rare; and calibration and temporal performance are imperfect. The models are not regulatory estimates of default probability and should not be used for approval, denial, pricing or other lending decisions.
 
-**Research question.** Among loans selected into a retrospectively defined, fixed-horizon SBA 7(a) cohort, how well can available recorded loan characteristics rank charge-off outcomes, and how do model choice, time period, data provenance, and calibration affect the interpretation?
+## 1. Research questions and data
 
-The target is `target_chargeoff_within_120m`, referring to the project's established definition of charge-off within 120 months of approval. Eligibility uses historical statuses and follow-up criteria implemented by the cohort builder. Accordingly, the task is **retrospective outcome discrimination in a selected sample**, not an unbiased prospective loan-approval prediction problem. It is not appropriate to interpret the resulting probabilities as deployable applicant-level credit risk.
+The project asks:
 
-**Out of scope:** production underwriting, pricing, fairness certification, causal estimation of loan terms, automated credit decisions, or a claim that the full public SBA portfolio is represented by the strict cohort.
+1. How do data cleaning, target definitions and eligibility rules change the observed SBA charge-off population?
+2. In a defined historical cohort, do non-term features rank later recorded charge-offs, and how stable are the results across forward fiscal years?
+3. In the contemporary FY2020–FY2024 cohort, how do frozen Logistic Regression and HistGradientBoosting models compare on FY2023 development and FY2024 later-year evaluation?
+4. What can the snapshot support about gross charge-off severity, and how sensitive are summaries to records dated after or not dated by the September 30, 2026 snapshot?
 
-## 2. Data source, population and target design
+The source is SBA’s [7(a) & 504 FOIA dataset](https://data.sba.gov/dataset/7a-504-foia) and associated [data dictionary](https://data.sba.gov/sites/default/files/uploaded_resources/7a_504_foia_data_dictionary.xlsx). The contemporary file used here is `FOIA_7a_FY2020_Present_asof_260930.csv`, with SHA-256 `b56194df6da2c22c318fcfc9f8f087152bc54e2be391c4cc70316514c37ef8e6`. SBA identifies the dataset as a U.S. Government Work and updates it periodically. The data are an administrative retrospective snapshot, not an immutable origination-time or servicing history.
 
-The research uses the public SBA 7(a) FOIA data, with the local analysis tied to a **2026-09-30** extract. The full project includes public-data profiling, missingness checks, duplicate analysis, source comparisons, status and date diagnostics, cohort eligibility tests, and temporal splits. Only aggregate diagnostics and source code are published; raw source records and enriched loan-level cohorts remain outside GitHub.
+## 2. Source audits and historical cohort construction
 
-| Population / quality checkpoint | Count | Meaning |
-|---|---:|---|
-| FY2010–FY2014 source rows before de-duplication | 243,525 | Rows in analysis window |
-| Exact duplicate excess rows | 799 | Removed in source-lineage audit |
-| Unique FY2010–FY2014 records | 242,726 | Audit population |
-| Strict fixed-horizon modeling cohort | 210,516 | Retrospectively eligible loans |
-| Charge-offs in the strict cohort | 13,634 | Fixed 120-month target events |
-| FY2010–FY2013 fitting sample | 164,628 | 10,856 target events |
-| FY2014 development validation | 45,888 | 2,778 events |
+### 2.1 Historical FY2010–FY2014 experiment
 
-Cohort validity is a central limitation. Eligibility depends in part on retrospective status and term validity, creating possible **selection bias** even after the term predictor is removed. Changes to follow-up windows, observation origins, or eligibility rules can alter the population and target. As a sensitivity check, the earlier source-lineage audit found **50 different labels among 209,207 loans eligible under both approval-origin and first-disbursement-origin definitions**; the origin choice therefore requires explicit documentation rather than a silent substitution.
+The historical source audit covered 243,525 FY2010–FY2014 rows. It removed 799 exact duplicate excess rows, leaving 242,726 unique records. The strict historical modeling cohort contained 210,516 loans and 13,634 charge-offs under the fixed 120-month target. The model split is FY2010–FY2013 training (164,628 loans; 10,856 events) and FY2014 development validation (45,888 loans; 2,778 events, 6.0539% prevalence).
 
-## 3. Quality control and suspicious term associations
+Task 5E.5 independently rebuilt the historical cohort outputs from the four source files and reconciled the reference population to 322,566 records and 21,262 charge-offs. The strict comparison cohort had 322,564 records with the same 21,262 charge-offs. This verifies cohort count reconciliation; it does not establish byte-for-byte raw-source-to-model reproducibility or fix the point-in-time provenance limitation. A separate source-lineage analysis compared approval-date and first-disbursement-date origins. Its detailed aggregate output is not included in the curated release package, so this report makes no numerical claim about the extent of label disagreement; the exercise nevertheless motivates explicit target-origin documentation.
 
-### 3.1 Exact-term patterns
+### 2.2 Term anomaly investigation and leakage controls
 
-Early interpretability and ablation analyses identified a large relationship between `TermInMonths` and retrospective charge-off status. Within the strict FY2010–FY2014 cohort, term lengths divisible by 12 had **1,211 events among 169,825 loans (0.71%)**, compared with **12,423 among 40,691 loans (30.53%)** for other recorded term values. These are descriptive rates in a selected dataset, not causal effects, risk multipliers for an applicant, or evidence of a specific SBA policy.
+A historical forensic review identified a large, unexplained association between recorded loan-term patterns and the retrospective outcome. The supporting loan-level diagnostic tables are not part of the curated aggregate release, so this report does not publish the unverified subgroup rates or event-timing percentages. The anomaly was treated as a leakage and source-lineage warning, not as evidence of a causal relationship or proof that the recorded term was fixed at origination.
 
-The source-lineage audit checked term values as recorded, without rounding, and compared patterns across fiscal year, program/processing and revolving status. The unusual association remained a concern after these descriptive checks. The 5D.1 forensic investigation tested a possible mechanism: whether recorded terms approximately matched elapsed time until charge-off. The observed near-match frequencies were low and similar between term groups (within three months: about **4.15%** for nonmultiples and **3.58%** for multiples among records with observed charge-off events). This **weakens that specific event-time explanation**, but does not establish that the source term field is its unaltered value at original approval.
+The frozen historical models therefore omit `TermInMonths`, derived term indicators, and `BusinessAge`, as well as terminal status and outcome dates. The ten historical features are log gross approval, guarantee share, initial interest rate, two-digit NAICS, project state, business type, processing method, revolver status, fixed/variable indicator and collateral indicator. Their exact approval-time values are not independently verified. This conservative exclusion policy reduces direct leakage risk but does not establish all retained fields as valid point-in-time predictors.
 
-**Modeling decision:** omit `TermInMonths`, its divisibility indicator, and all other term-derived features from retained models. Exclude terminal status, outcome dates and other post-outcome variables from predictors as well. `BusinessAge` is also excluded from the frozen models while its historical collection/provenance questions remain open.
+## 3. Historical FY2010–FY2014 model results
 
-### 3.2 Missingness and field provenance
+The historical comparison used Logistic Regression as a benchmark and HistGradientBoosting as a flexible alternative. On FY2014:
 
-The published ten-feature register classifies **every retained predictor as provisionally not verified at the original decision time**. Names such as `initial_interest_rate` are not sufficient proof of historical availability. This is important because a 2026 administrative extract may contain amendments, reclassifications or other information that was not available at a prior loan approval. No independent contemporaneous underwriting record or archived origination snapshot is supplied to establish otherwise.
+| Model | Average precision | ROC-AUC | Brier score | Log loss | Mean predicted | Observed prevalence |
+|---|---:|---:|---:|---:|---:|---:|
+| Extended Logistic Regression | 0.106057 | 0.655737 | 0.055870 | 0.219973 | 5.7275% | 6.0539% |
+| Extended HistGradientBoosting | 0.109897 | 0.669537 | 0.055712 | 0.218361 | 5.6254% | 6.0539% |
 
-## 4. Modeling design
+A paired bootstrap with 150 replicates estimated the FY2014 HGB-minus-logistic average-precision difference at 0.003508 (95% interval -0.000433 to 0.007467), which includes zero. The ROC-AUC difference was 0.013865 (95% interval 0.008808 to 0.018604); the Brier difference was -0.000153 (95% interval -0.000221 to -0.000066). These resampling intervals describe uncertainty within the selected validation sample only.
 
-The analysis compares Logistic Regression, serving as an interpretable reference, with HistGradientBoosting, serving as a flexible nonlinear alternative. Model sets progress from a five-feature core to an extended set. A later exploratory set adds `BusinessAge` but is not selected as a frozen primary model given the provenance issue.
+The historical HGB top-decile prediction averaged about 11.88%, compared with about 12.90% observed. FY2013 and FY2014 were development years used in model selection; FY2015–FY2016 outcomes were viewed in earlier baseline work. None is a pristine confirmatory test. The source data and selection process also preclude interpreting these scores as prospective, calibrated probabilities for applicants.
 
-**Retained ten features:** `log_gross_approval`, `guarantee_share`, `initial_interest_rate`, `naics_sector`, `project_state`, `business_type`, `processing_method`, `revolver_status`, `fixed_or_variable_interest_ind`, and `collateral_ind`. Numeric and categorical preprocessing is fitted only on the corresponding training years; the FY2014 validation year is not used to fit imputers or transformations. Exact processing details are in [`scripts/sba_task5d2_term_free_validation.py`](../scripts/sba_task5d2_term_free_validation.py) and [`scripts/sba_task5e1_model_freeze.py`](../scripts/sba_task5e1_model_freeze.py).
+## 4. Contemporary FY2020–FY2026 descriptive audit (Task 6A)
 
-**Chronological comparisons:** first fit FY2010–FY2012 and validate FY2013; then fit FY2010–FY2013 and validate FY2014. The final saved models are refitted using FY2010–FY2013 and their metrics are reproduced on FY2014. Because FY2013 and FY2014 inform development and model choice, these are not untouched confirmatory samples. FY2015–FY2016 outcomes were inspected earlier during baseline work and cannot be represented as a pristine holdout.
+Task 6A verified 403,644 source rows, 396 exact duplicate excess rows and 403,248 unique records across FY2020–FY2026. Total nominal approved amount in the yearly summary was **$213,015,593,018**. FY2020–FY2026 record counts were 42,205; 51,758; 47,624; 57,324; 70,211; 78,025; and 56,101. FY2025–FY2026 loans had less than 24 months of possible follow-up at the snapshot boundary, so these approval and status summaries are not fixed-horizon charge-off rates. Gross approval sums are not disbursement, outstanding balance, loss or EAD.
 
-## 5. Results
+## 5. Task 6B: retrospective 24-month cohort
 
-### 5.1 Temporal validation
+The Task 6B target is a recorded charge-off within **24 calendar months** after approval, assessed from the September 30, 2026 retrospective snapshot. Approval fiscal years are reconciled to approval dates; only cohorts with the required calendar follow-up are eligible. Paid-in-full is treated as a competing terminal event. Charge-off dates, paid-in-full dates and status fields are used for eligibility and outcome construction only. Cancelled, committed, unresolved and inconsistent records are handled under the manifest’s mutually exclusive exclusion priority. Missing FirstDisbursementDate is reported but is not, by itself, an exclusion.
 
-| Validation | Model | PR-AUC | ROC-AUC | Brier score | Observed event rate |
-|---|---|---:|---:|---:|---:|
-| FY2013 | Extended Logistic Regression | 0.0913 | 0.6346 | 0.05202 | 5.58% |
-| FY2013 | Extended HistGradientBoosting | **0.0957** | **0.6469** | **0.05186** | 5.58% |
-| FY2014 | Extended Logistic Regression | 0.1061 | 0.6557 | 0.05587 | 6.05% |
-| FY2014 | Extended HistGradientBoosting | **0.1099** | **0.6695** | **0.05571** | 6.05% |
+This is a retrospective charge-off outcome, not necessarily a regulatory definition of default. Charge-offs after the 24-month horizon are negative for this fixed-horizon label; 6,645 later charge-offs were accounted for as negatives. FY2020–FY2024 counts reconcile as follows:
 
-![Extended models' PR-AUC by forward validation year](../figures/term_free_pr_auc_by_year.png)
+| Approval FY | Candidate | Eligible | Positive | Negative | 24-month prevalence |
+|---:|---:|---:|---:|---:|---:|
+| 2020 | 42,205 | 36,440 | 79 | 36,361 | 0.2168% |
+| 2021 | 51,758 | 45,146 | 96 | 45,050 | 0.2126% |
+| 2022 | 47,624 | 41,756 | 281 | 41,475 | 0.6730% |
+| 2023 | 57,324 | 50,236 | 476 | 49,760 | 0.9475% |
+| 2024 | 70,211 | 60,114 | 417 | 59,697 | 0.6937% |
+| **Total** | **269,122** | **233,692** | **1,349** | **232,343** | **0.5773%** |
 
-*Figure 1. Average precision/PR-AUC on the two development-validation years. Comparisons across years should account for different charge-off prevalence and cohort composition.*
+The candidate pool differs from the raw 403,248 unique FY2020–Present rows because it is limited to the FY2020–FY2024 approval candidate cohorts. Of 35,430 candidate exclusions, 35,399 are CANCLD or COMMIT exclusions; the remainder are other date, maturity, status and consistency exclusions. This eligibility definition induces selection: excluded cancelled/committed and unresolved loans can differ systematically from eligible loans, and eligible status does not prove a funded or outstanding exposure.
 
-The extended set performs better than the core set in FY2014 (for example, HistGradientBoosting PR-AUC rises from **0.0940 to 0.1099**). The best numerical exploratory performance was obtained with the `BusinessAge` feature, but the conservative frozen models use the extended **term-free, BusinessAge-free** set.
+## 6. Task 6C: contemporary model development and FY2024 evaluation
 
-### 5.2 Statistical uncertainty
+### 6.1 Development design and leakage prevention
 
-A paired bootstrap with **150 replicates** compared extended HistGradientBoosting minus extended Logistic Regression on each development-validation year. FY2014 differences and their approximate 95% bootstrap intervals are:
+FY2020–FY2022 were training years (123,342 eligible observations; 456 positives; 0.3697% prevalence), FY2023 was development validation (50,236; 476 positives; 0.9475%), and FY2024 was reserved for later-year evaluation (60,114; 417 positives; 0.6937%). The fitted pipelines and preprocessing were frozen before FY2024 scoring. FY2024 cohort counts had previously been inspected; FY2024 is therefore not a pristine blind holdout.
 
-| Metric | HGB minus Logistic | 95% bootstrap interval | Interpretation |
-|---|---:|---|---|
-| PR-AUC | +0.0035 | -0.0004 to +0.0075 | Interval includes zero |
-| ROC-AUC | +0.0139 | +0.0088 to +0.0186 | Positive in this procedure |
-| Brier score | -0.00015 | -0.00022 to -0.00007 | Slightly lower error |
+The feature allowlist contains log gross approval, guaranteed-to-gross approval share, initial interest rate, NAICS-2, project state, business type, processing method, revolver status, fixed/variable indicator and collateral indicator. Term, term-derived fields, BusinessAge, snapshot status, charge-off and paid-in-full dates, gross charge-off amount, first-disbursement and follow-up/event-time information, identifiers and other outcome-derived variables are excluded. Imputers, scalers and encoders were fitted only on FY2020–FY2022. The Task 6C manifest flags every retained predictor as lacking independently verified approval-time provenance.
 
-These intervals reflect resampling uncertainty within this retrospectively selected validation sample; they do **not** quantify historical feature revisions, time drift, selection effects, or policy deployment uncertainty. With only 150 draws, interval estimates also have Monte Carlo variability. The primary candidate is selected for its small, consistent discrimination/calibration advantage, not a claim of conclusively superior average precision in FY2014.
+The prespecified comparison uses a constant training-prevalence reference, L2 Logistic Regression (C=0.1) and conservative HistGradientBoosting (100 iterations, at most 7 leaves, learning rate 0.05, L2=5, minimum leaf size 80); no oversampling or class weights were used. The existing HGB was selected provisionally using FY2023 average precision, Brier score and log loss; the existing Logistic Regression remained the benchmark. No post-freeze refit, retuning, recalibration or rescore was performed for this report.
 
-### 5.3 Risk ranking and calibration
+### 6.2 Development and temporal evaluation metrics
 
-In FY2014, observed charge-off prevalence was **6.0539%**. The frozen HistGradientBoosting model's mean prediction was **5.6254%**, an absolute gap of approximately **0.43 percentage points**. In its highest predicted-risk decile, observed charge-off frequency was approximately **12.90%**, versus **11.88%** predicted. This indicates informative ranking within the sample but **underprediction of observed risk**, with further variation across recorded subgroups.
+| Model | FY | Average precision | ROC-AUC | Brier | Log loss | Mean predicted | Observed prevalence |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Constant training prevalence | 2023 | 0.009475 | 0.500000 | 0.009419 | 0.056732 | 0.003697 | 0.009475 |
+| Logistic Regression | 2023 | 0.027965 | 0.789528 | 0.009443 | 0.049701 | 0.014260 | 0.009475 |
+| HistGradientBoosting | 2023 | 0.032280 | 0.788597 | 0.009271 | 0.048441 | 0.008751 | 0.009475 |
+| Constant training prevalence | 2024 | 0.006937 | 0.500000 | 0.006899 | 0.042526 | 0.003697 | 0.006937 |
+| Logistic Regression | 2024 | 0.015398 | 0.760143 | 0.008191 | 0.048098 | 0.023362 | 0.006937 |
+| HistGradientBoosting | 2024 | 0.014408 | 0.735401 | 0.006925 | 0.039990 | 0.010315 | 0.006937 |
 
-![FY2014 HistGradientBoosting risk-decile calibration](../figures/fy2014_hgb_calibration.png)
+In FY2023, HGB had higher average precision and slightly better Brier/log loss than Logistic Regression; ROC-AUC was nearly tied and slightly favored logistic. The paired FY2023 HGB-minus-logistic average-precision difference was 0.004315 (95% interval 0.000716 to 0.009324; 1,000 matched-observation bootstrap replicates, seed 20261113). In FY2024, Logistic Regression’s average precision exceeded HGB by 0.000989, while HGB had better Brier and log loss. The paired HGB-minus-logistic FY2024 difference was -0.000989 (95% interval -0.002428 to 0.000747; 1,000 replicates, same seed), which includes zero.
 
-*Figure 2. Risk-decile observed versus predicted frequencies for the frozen HistGradientBoosting model. This is development validation, not deployment calibration.*
+The ranking change has no established single cause. Observed prevalence changed from 0.3697% in training to 0.9475% in FY2023 and 0.6937% in FY2024. Cohort composition, changing feature/outcome relationships, and sampling variation among rare positives are plausible contributors; this analysis does not identify their separate effects. Average precision is prevalence-sensitive. At these event rates, even a model that ranks some positives toward the top can produce many false positives and low precision. In FY2024, HGB’s top quantile averaged 3.568% predicted versus 1.676% observed; logistic’s top quantile averaged 10.969% versus 1.863% observed. At the 1% score cutoff, FY2024 precision/recall was 1.36%/66.19% for HGB and 1.21%/90.17% for logistic. These are descriptive operating-point summaries, not recommended lending thresholds.
 
-For example, the FY2014 recorded business-age group of two to under three years had observed frequency around **8.62%** versus approximately **6.06%** predicted in the subgroup audit. This illustrates subgroup calibration limitations, **not** a fairness verdict. No decision threshold, default approval/denial action, or operational calibration adjustment is proposed.
+The HGB and logistic models must not be used for lending decisions. Their training targets are retrospective snapshot outcomes, eligibility conditions on future status and consistency, and candidate features lack independent point-in-time versions. Validation is limited to one development year and one later year in a selected sample, performance shifted between those years, calibration is imperfect, and no prospective, causal, fairness or regulatory validation was conducted. The fixed-horizon charge-off target is not a regulatory definition of default probability.
 
-## 6. Model freeze and reproducibility
+### 6.3 Prediction artifact publication status
 
-The frozen release includes two serialized pipelines:
+The FY2024 loan-level prediction archive contains three rows of truncated NumPy array strings, not aligned scalar predictions. The evaluation manifest marks it invalid and excluded from curated outputs. No individual predictions are reconstructed or published. The curated outputs are aggregate model metrics, quantile calibration, operating points, paired bootstrap and FY2023/FY2024 comparison tables.
 
-- [`models/B_extended_no_term_HistGradientBoosting.joblib`](../models/B_extended_no_term_HistGradientBoosting.joblib)
-- [`models/B_extended_no_term_LogisticRegression.joblib`](../models/B_extended_no_term_LogisticRegression.joblib)
+## 7. Task 6D.1: gross charge-off severity
 
-The official model-freeze manifest records **ten passing quality gates**, confirms that preprocessing used the fitting years only, checks that forbidden term and outcome variables are absent, and shows **zero difference between predictions before and after loading the saved models**. SHA-256 checksums are recorded for the cohort input and both models. Do not deserialize untrusted `joblib` files; such files can execute code on load.
+The original severity audit includes 8,202 exact-row-deduplicated CHGOFF-status loans. All 8,202 have valid nonnegative GrossChargeOffAmount and valid descriptive gross charge-off-to-approval ratios. SBA's data dictionary describes GrossChargeOffAmount as the loan balance charged off, including guaranteed and non-guaranteed portions; it is not recovery-adjusted economic loss.
 
-The GitHub release includes model-comparison scripts, aggregate metrics, source lineage tests, the Task 4 enriched cohort builder, pinned package versions, and instructions in [`docs/REPRODUCE.md`](REPRODUCE.md). However, an **independent raw-FOIA-to-enriched-cohort-to-model rebuild has not been verified**. In particular, a rebuilt `.csv.gz` can differ at the compressed-byte level because gzip can embed metadata even if the underlying table is equivalent. The frozen run's hash guard expects the originally validated compressed input and must not be bypassed solely to obtain a passing label. The correct next verification is to compare canonical uncompressed data and rerun documented checks, while keeping the original official frozen artifact unchanged.
+| Gross charge-off amount statistic | Original population |
+|---|---:|
+| Total | $1,099,161,613.40 |
+| Mean | $134,011.41 |
+| Median | $49,951.60 |
+| Q1 / Q3 | $22,026.08 / $141,493.33 |
+| P90 / P95 / P99 | $293,077.75 / $447,404.53 / $1,423,856.41 |
+| Mean gross charge-off-to-approval ratio | 0.86145 |
 
-## 7. Interpretation, limitations, and responsible use
+The original audit flagged 430 charge-off amounts above GrossApproval, 12 zero amounts, 11 missing charge-off dates and 18 dates after the declared snapshot. Values were retained, not capped. Task 6D.1 outputs also stratify by approval fiscal year, charge-off calendar year, NAICS-2, project state and original approval-size band; small comparison groups are suppressed at the documented minimum n. Approval-vintage severity reflects unequal time at risk and right-censoring. GrossChargeOffAmount is not recovery-adjusted net loss. GrossApproval is not exposure at default, and their ratio is **not LGD**.
 
-1. **Retrospective selection:** strict-cohort eligibility incorporates downstream information and may bias comparisons; performance does not generalize automatically to all origination applications.
-2. **Feature timing:** none of the ten published predictors has a contemporaneous, independently verified approval-time value history. Exclusion of suspicious term predictors is precautionary, not proof the other inputs are safe.
-3. **Development-only evaluation:** FY2013 and FY2014 guided choices; a previous baseline inspected FY2015–FY2016. No pristine test performance is claimed.
-4. **Incomplete calibration:** average and top-decile risks are underestimated in FY2014, and subgroup gaps remain.
-5. **Prediction is not causation:** neither the model nor the term investigation establishes a causal effect of loan terms, business characteristics, or program attributes.
-6. **No operational decision use:** the score is inappropriate for approval, denial, pricing, regulatory compliance decisions, or individual risk guarantees.
-7. **Reproduction is partial:** input-level source-to-model regeneration has been documented but not independently confirmed.
+### 7.1 Separate strict as-of sensitivity
 
-These limitations shape the appropriate contribution: a carefully audited, transparent **research and validation workflow** rather than a deployable credit-risk engine.
+The sensitivity uses the same source and deduplication rule but separately reports (a) the original Task 6D.1 population, (b) a bridge removing only the 18 future dates, and (c) a strict as-of population with valid ChargeOffDate no later than 2026-09-30. The 11 missing-date loans cannot be proven to fall within the snapshot window, so the strict set excludes them as well.
 
-## 8. Conclusions and next research steps
+| Population | N | Total | Mean | Median | Q1 | Q3 | P90 | P95 | P99 | Mean ratio |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Original Task 6D.1 | 8,202 | $1,099,161,613.40 | $134,011.41 | $49,951.60 | $22,026.08 | $141,493.33 | $293,077.75 | $447,404.53 | $1,423,856.41 | 0.86145 |
+| Remove only 18 future dates | 8,184 | $1,095,771,542.93 | $133,891.93 | $49,951.13 | $22,023.37 | $141,515.23 | $293,056.56 | $446,910.36 | $1,420,436.90 | 0.86142 |
+| Strict as-of, valid date ≤ 2026-09-30 | 8,173 | $1,095,771,542.93 | $134,072.13 | $49,967.51 | $22,112.18 | $141,704.41 | $293,392.03 | $447,165.99 | $1,420,895.62 | 0.86258 |
 
-The project demonstrates a defensible workflow for source auditing, suspicious-feature investigation, forward-year validation, uncertainty comparison, calibration review, model artifact freezing, and integrity-checked public documentation. On the selected retrospective FY2014 cohort, term-free extended HistGradientBoosting shows **moderate ranking performance**, with ROC-AUC around **0.670** and PR-AUC around **0.110**, alongside meaningful calibration gaps. The research value comes from diagnosing why an extremely strong predictor may be unsafe, documenting model limits, and preserving the evidence needed to challenge the results.
+Removing the future-dated records reduces gross amount total by $3,390,070.47. The 11 undated records have zero recorded gross charge-off amounts, verified by the sensitivity QA; removing them therefore reduces the denominator from 8,184 to 8,173 without changing the total, increasing the amount mean and mean ratio. The original severity results remain unchanged. The strict subset retains 429 above-approval amounts and one zero amount. This sensitivity is a data-boundary analysis, not a correction of the original report.
 
-Highest-priority future work is (1) independently re-create the enriched cohort from the official source files using stable content hashes, (2) verify features against genuinely historical approval-time records, and (3) construct a redesigned origination-time cohort with an independent, sufficiently mature future evaluation sample. Additional hyperparameter experiments are not the immediate priority.
+## 8. Limitations and financial interpretation
 
-## Evidence and audit trail
+- **Retrospective selection:** Task 6B eligibility uses future status/date information; cancellation, commitment and unresolved-record exclusions can change the population. Findings do not generalize automatically to all SBA approvals or funded loans.
+- **Feature provenance:** recorded administrative features are not proven to be the values available at approval. Excluding obvious post-outcome fields prevents direct leakage but does not establish point-in-time validity of the remaining predictors.
+- **Rare outcomes and temporal instability:** only 1,349 of 233,692 eligible contemporary loans are positive (0.5773% overall). Precision is constrained by low prevalence, uncertainty is substantial for relatively small event counts, and performance changed from FY2023 to FY2024.
+- **Calibration and transportability:** aggregate quantile bins and bootstrap intervals are sample-conditional. They do not validate subgroup calibration, future calibration or deployment suitability.
+- **Gross severity is not loss given default:** recovery cash flows, their timing, expenses and default-date balance are not established by these source fields. This report makes no LGD, EAD, expected-loss or causal estimate.
+- **Snapshot anomalies:** future-dated and missing terminal dates require separate reporting. They are not silently imputed or removed from the original published summaries.
+- **Reproducibility:** manifests verify selected source and report hashes, and Task 5E.5 reproduces cohort counts. An end-to-end raw-source-to-historical-model performance reproduction is not fully established; compressed gzip metadata can prevent byte-identical cohort hashes even when decoded rows match.
 
-All numerical results in this report were transcribed from the project's verified aggregate outputs and previously reviewed forensic archives. Main public repository references:
+## 9. Contributions and further research
 
-- [`results/task5e1_manifest.json`](../results/task5e1_manifest.json): frozen sample counts, metrics, model checksums and QA gates.
-- [`results/task5e1_frozen_model_metrics.csv`](../results/task5e1_frozen_model_metrics.csv): final FY2014 metrics.
-- [`results/task5d3_temporal_comparison.csv`](../results/task5d3_temporal_comparison.csv): FY2013/FY2014 forward-year comparisons.
-- [`results/task5d3_paired_bootstrap.csv`](../results/task5d3_paired_bootstrap.csv): paired bootstrap uncertainty.
-- [`results/task5d2_model_comparison.csv`](../results/task5d2_model_comparison.csv): core, extended and exploratory feature sets.
-- [`results/task5e1_feature_provenance_register.csv`](../results/task5e1_feature_provenance_register.csv): point-in-time caveats.
-- [`docs/METHODOLOGY.md`](METHODOLOGY.md), [`docs/MODEL_CARD.md`](MODEL_CARD.md) and [`docs/OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md): methods, intended use and unresolved issues.
-- Source-lineage/term-forensics outputs: previously inspected Task 5D / 5D.1 audit ZIP archives; these aggregate diagnostics are **not yet included** in the public release. Claims relying on them should be read with that provenance caveat.
+The project’s contributions are an auditable checksum and deduplication workflow; independent cohort count reconciliation; explicit competing-event and fixed-horizon target rules; temporal model splitting; paired comparison uncertainty; leakage controls; disclosure of approval-time provenance gaps; separate accounting for outcome timing versus approval vintage; and financial interpretation that keeps gross charge-off amounts separate from exposure and recovery-adjusted loss concepts. These are methodological contributions; claims about predictive usefulness remain conditional on this retrospective sample.
 
-**Data reference:** [U.S. Small Business Administration, 7(a) and 504 FOIA data](https://data.sba.gov/dataset/7a-504-foia), locally analysed as of 30 September 2026. **Report version:** v1.0, 11 November 2026.
+Next research should prioritize genuinely historical approval-time feature snapshots, an independently sourced and mature temporal cohort, a transparent accounting of cancelled/committed/undisbursed selection, and an external prospective validation design. Do not respond to current uncertainty by tuning on FY2024 or altering frozen artifacts. The contemporaneous reports do not test causality, regulatory default, fairness, or operational utility.
+
+## 10. Reproducibility and audit trail
+
+Raw FOIA data, enriched cohorts and loan-level predictions remain outside the repository. The authoritative aggregate runs are under `..\SBA_Project_Data`; reviewed aggregate-only copies and verified contemporary frozen model artifacts are in this release candidate under `results/` and `models/`. Reproduction instructions are in [`REPRODUCE.md`](REPRODUCE.md):
+
+| Experiment | Verified external output | Curated repository copy |
+|---|---|---|
+| Historical model freeze | `sba_task5e1_model_freeze_output\task5e1_manifest.json` | `results/task5e1_manifest.json`; `results/task5e1_frozen_model_metrics.csv` |
+| Independent Task 5E.5 cohort reconciliation | `sba_cohort_output_v2_rebuild_5e5\cohort_manifest.json`; `cohort_counts_by_fy.csv`; `quality_flags.csv` | Historical count evidence is summarized above; loan-level cohorts stay outside the release |
+| Task 6A descriptive audit | `sba_task6a_output\task6a_manifest.json`; yearly/status/state/NAICS/missingness CSVs | `results/task6a/` |
+| Task 6B cohort QA | `sba_task6b_audit_output_verified\task6b_manifest.json`; outcome, exclusion, quality-flag and disbursement CSVs | `results/task6b_verified/` |
+| Task 6C development | `sba_task6c_development_output\task6c_manifest.json`; metrics, calibration and operating-point CSVs | `results/task6c_development/`; sanitized aggregate manifest excludes loan-level prediction-file hash |
+| Task 6C freeze and FY2024 evaluation | `sba_task6c_fy2024_evaluation\model_freeze_manifest.json`; `evaluation_manifest.json`; comparison, calibration, operating-point and bootstrap reports | `results/task6c_fy2024_evaluation/`; invalid prediction artifact not copied |
+| Task 6D.1 severity | `sba_task6d1_severity_output\task6d1_manifest.json`; distribution, ratio, vintage/calendar, reconciliation and quality CSVs | `results/task6d1_severity/` |
+| Task 6D.1 strict as-of sensitivity | `sba_task6d1_asof_sensitivity\task6d1_asof_sensitivity_manifest.json`; comparison and quality CSVs | `results/task6d1_asof_sensitivity/` |
+
+The SBA’s public data attribution is linked above. Repository source-code licensing has not been selected. No new PDF is supplied: no Markdown-to-PDF renderer was available in the reviewed environment. The old PDF is archived under `docs/archive/` and must not be presented as matching this report.

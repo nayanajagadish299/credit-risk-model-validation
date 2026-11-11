@@ -1,0 +1,5 @@
+﻿flag,records
+chargeoff_after_snapshot,18
+gross_chargeoff_exceeds_gross_approval,430
+missing_chargeoff_date,11
+zero_gross_chargeoff_amount,12

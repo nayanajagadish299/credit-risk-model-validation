@@ -1,0 +1,155 @@
+{
+  "script_version": "task6c1-contemporary-24m-v1",
+  "source_sha256": "b56194df6da2c22c318fcfc9f8f087152bc54e2be391c4cc70316514c37ef8e6",
+  "task6b_source_sha256_expected": true,
+  "cohort_counts": {
+    "2020": {
+      "candidate": 42205,
+      "eligible": 36440,
+      "positive": 79,
+      "negative": 36361,
+      "excluded": 5765
+    },
+    "2021": {
+      "candidate": 51758,
+      "eligible": 45146,
+      "positive": 96,
+      "negative": 45050,
+      "excluded": 6612
+    },
+    "2022": {
+      "candidate": 47624,
+      "eligible": 41756,
+      "positive": 281,
+      "negative": 41475,
+      "excluded": 5868
+    },
+    "2023": {
+      "candidate": 57324,
+      "eligible": 50236,
+      "positive": 476,
+      "negative": 49760,
+      "excluded": 7088
+    },
+    "2024": {
+      "candidate": 70211,
+      "eligible": 60114,
+      "positive": 417,
+      "negative": 59697,
+      "excluded": 10097
+    }
+  },
+  "model_input_rows": 233692,
+  "train_rows": 123342,
+  "train_positives": 456,
+  "train_negatives": 122886,
+  "validation_rows": 50236,
+  "validation_positives": 476,
+  "validation_negatives": 49760,
+  "features": [
+    "log_gross_approval",
+    "guarantee_share",
+    "initial_interest_rate",
+    "naics2",
+    "project_state",
+    "business_type",
+    "processing_method",
+    "revolver_status",
+    "fixed_or_variable_interest_ind",
+    "collateral_ind"
+  ],
+  "feature_audit": {
+    "GrossApproval": "log transformed; approval-time value unverified",
+    "SBAGuaranteedApproval": "ratio with approval amount; approval-time value unverified",
+    "InitialInterestRate": "candidate origination attribute; point-in-time value unverified",
+    "NaicsCode": "sector prefix; point-in-time value unverified",
+    "ProjectState": "point-in-time value unverified",
+    "BusinessType": "point-in-time value unverified",
+    "ProcessingMethod": "point-in-time value unverified",
+    "RevolverStatus": "point-in-time value unverified",
+    "FixedorVariableInterestInd": "point-in-time value unverified",
+    "CollateralInd": "point-in-time value unverified",
+    "excluded": "Term/term derivatives, BusinessAge, status, event dates, loss amount, identifiers, JobsSupported, follow-up and outcome-derived features"
+  },
+  "split_years": {
+    "train": [
+      2020,
+      2021,
+      2022
+    ],
+    "development_validation": [
+      2023
+    ],
+    "reserved_not_scored": [
+      2024
+    ]
+  },
+  "settings": {
+    "seed": 20261112,
+    "train_fys": [
+      2020,
+      2021,
+      2022
+    ],
+    "validation_fy": 2023,
+    "evaluation_fy_reserved": 2024,
+    "FY2024_used_for_selection_or_scoring": false,
+    "logistic": {
+      "C": 0.1,
+      "solver": "liblinear",
+      "max_iter": 1000
+    },
+    "hgb": {
+      "max_iter": 100,
+      "max_leaf_nodes": 7,
+      "learning_rate": 0.05,
+      "l2_regularization": 5,
+      "min_samples_leaf": 80,
+      "early_stopping": false
+    },
+    "class_weights_or_oversampling": "none",
+    "calibration_bins": "up to 10 quantiles",
+    "operating_thresholds": [
+      0.005,
+      0.01,
+      0.02,
+      0.05
+    ],
+    "bootstrap": {
+      "metric": "average_precision",
+      "replicates": 300,
+      "seed": 20261112
+    }
+  },
+  "packages": {
+    "python": "3.10.2",
+    "pandas": "2.3.3",
+    "numpy": "2.2.6",
+    "scikit_learn": "1.7.2",
+    "joblib": "1.4.2"
+  },
+  "selection_bias": "Retrospective outcome/status eligibility and exclusion of cancelled/committed loans can induce selection bias; FY2024 previously inspected during cohort construction and is not pristine.",
+  "checks": {
+    "cohort_counts_reconcile": "PASS",
+    "split_years_correct": "PASS",
+    "FY2024_not_scored": "PASS",
+    "only_training_preprocessing_fit": "PASS",
+    "aggregate_outputs_created": "PASS"
+  },
+  "release_manifest_type": "aggregate-only sanitized copy of the verified Task 6C development manifest",
+  "source_manifest_sha256": "4e6feb8eb0549c1d72673ad84729b1421b86e49e63a7dc9106ad2044a55c7a8f",
+  "aggregate_outputs": [
+    "validation_metrics.csv",
+    "quantile_calibration.csv",
+    "operating_points.csv"
+  ],
+  "aggregate_output_sha256": {
+    "validation_metrics.csv": "1fe439ad783311fba129391ddd9aa75cd4cc7597879af3b67f9dd28dfe434a4f",
+    "quantile_calibration.csv": "ecdcc38cd8fc8fbbddd2890e6b5436a69505302ea3447b5225886d86cb7e7615",
+    "operating_points.csv": "95fe242a6ea8c91bec0cd9657a3a3325f92b1886ed12662a677339fdee8f5e5b"
+  },
+  "excluded_artifacts": [
+    "validation_predictions.csv.gz (loan-level predictions; not included)",
+    "models/ (frozen contemporary artifacts are separately listed)"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "study": "Task 6D.1 separate strict-as-of snapshot sensitivity",
+  "snapshot_date": "2026-09-30",
+  "source_file": "FOIA_7a_FY2020_Present_asof_260930.csv",
+  "source_sha256": "b56194df6da2c22c318fcfc9f8f087152bc54e2be391c4cc70316514c37ef8e6",
+  "raw_rows": 403644,
+  "duplicate_excess_rows": 396,
+  "unique_chgoff_rows": 8202,
+  "future_dated_chgoff_rows_excluded": 18,
+  "strict_asof_excluded_total": 29,
+  "missing_or_invalid_date_rows_excluded_from_strict_asof": 11,
+  "undated_chargeoff_rows_with_nonzero_amount": 0,
+  "population_counts": {
+    "original_task6d1": 8202,
+    "future_dated_excluded_only": 8184,
+    "strict_asof_snapshot": 8173
+  },
+  "checks": {
+    "source_checksum": "PASS",
+    "source_rows": "PASS",
+    "deduplicated_chgoff_count": "PASS",
+    "future_dated_rows_reconcile": "PASS",
+    "strict_asof_exclusions_reconcile": "PASS",
+    "undated_chargeoff_amounts_reconcile": "PASS",
+    "population_nested": "PASS",
+    "aggregate_reports_written": "PASS"
+  },
+  "report_sha256": {
+    "severity_comparison.csv": "bdfd41600b67a4bcd6f5a77941a2f14c7f1104812420e997235dfddd1480e6d1",
+    "quality_flags_comparison.csv": "50c35452146ee0b3118a10e24f7c9bc68cd26377b738bf288cec80e73f040bbc"
+  },
+  "interpretation": "Gross charge-off severity and gross charge-off-to-approval ratio only; this ratio is not LGD. Original Task 6D.1 outputs are unchanged."
+}

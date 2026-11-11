@@ -1,0 +1,46 @@
+{
+  "task": "6A contemporary SBA descriptive audit, not predictive validation",
+  "source_basename": "FOIA_7a_FY2020_Present_asof_260930.csv",
+  "source_sha256": "b56194df6da2c22c318fcfc9f8f087152bc54e2be391c4cc70316514c37ef8e6",
+  "source_sha256_verified": true,
+  "source_rows_expected": 403644,
+  "snapshot_as_of": "2026-09-30",
+  "fy_range": [
+    2020,
+    2026
+  ],
+  "counts": {
+    "raw_rows": 403644,
+    "unique_rows": 403248,
+    "included_unique_fy2020_2026_rows": 403248,
+    "duplicate_excess_rows": 396
+  },
+  "snapshot_status_totals": {
+    "CANCLD": 52657,
+    "CHGOFF": 8202,
+    "COMMIT": 21475,
+    "EXEMPT": 246356,
+    "PIF": 74558
+  },
+  "group_suppression_min_n": 10,
+  "suppressed_group_counts": {
+    "status_by_fy.csv": 1,
+    "state_by_fy.csv": 7,
+    "naics2_by_fy.csv": 1
+  },
+  "outputs": [
+    "yearly_summary.csv",
+    "status_by_fy.csv",
+    "state_by_fy.csv",
+    "naics2_by_fy.csv",
+    "missingness_by_fy.csv"
+  ],
+  "limitations": [
+    "Status reflects September 2026 retrospective snapshot, not approval-time status.",
+    "Snapshot charge-off proportions must not be called 24-month or 120-month rates.",
+    "FY2025-2026 approvals do not have two full years of follow-up as of September 2026.",
+    "Sums of GrossApproval represent nominal approved dollars, not loss, outstanding balance or disbursement.",
+    "Current-snapshot values may not equal approval-time values, and FY2026 may not be final.",
+    "No loan-level records are written. Small groups are suppressed; individual records remain in the original source."
+  ]
+}
