@@ -1,0 +1,11 @@
+﻿model_feature,raw_field,status,evidence_or_limitation
+log_gross_approval,GrossApproval,provisional_not_point_in_time_verified,"Origination-level amount; historical 2026 snapshot, value at decision not proven"
+guarantee_share,SBA guaranteed approval / gross approval,provisional_not_point_in_time_verified,Underwriting field; origination version not independently verified
+initial_interest_rate,InitialInterestRate,provisional_not_point_in_time_verified,Initial rate by label; point-in-time provenance not independently verified
+naics_sector,NAICS code,provisional_not_point_in_time_verified,Industry classification; original code vintage/changes not independently verified
+project_state,ProjectState,provisional_not_point_in_time_verified,Project location; point-in-time version not independently verified
+business_type,BusinessType,provisional_not_point_in_time_verified,Business category; historical version not independently verified
+processing_method,ProcessingMethod,provisional_not_point_in_time_verified,Program/processing channel; historical version not independently verified
+revolver_status,RevolverStatus,provisional_not_point_in_time_verified,Revolving flag; no independent approval-time snapshot verification
+fixed_or_variable_interest_ind,FixedOrVariableInterestInd,provisional_not_point_in_time_verified,Rate-type indicator; historical version not independently verified
+collateral_ind,CollateralInd,provisional_not_point_in_time_verified,Collateral indicator; point-in-time status not independently verified

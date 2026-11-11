@@ -1,0 +1,7 @@
+﻿validation_year,metric,comparison,n_replicates,median_difference,ci95_low,ci95_high,ci_includes_zero
+2013,pr_auc,B_HGB_minus_B_Logistic,150,0.0047761,0.0007814,0.0079823,False
+2013,roc_auc,B_HGB_minus_B_Logistic,150,0.0117322,0.0063804,0.0185006,False
+2013,brier,B_HGB_minus_B_Logistic,150,-0.0001603,-0.000238,-6.67e-05,False
+2014,pr_auc,B_HGB_minus_B_Logistic,150,0.0035082,-0.000433,0.0074673,True
+2014,roc_auc,B_HGB_minus_B_Logistic,150,0.013865,0.0088079,0.0186042,False
+2014,brier,B_HGB_minus_B_Logistic,150,-0.0001526,-0.0002211,-6.59e-05,False

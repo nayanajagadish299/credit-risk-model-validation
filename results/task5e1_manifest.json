@@ -1,0 +1,109 @@
+{
+  "task": "Project A Task 5E.1 \u2014 reproducible release-candidate freeze",
+  "created_utc": "2026-11-11T11:08:30.931164+00:00",
+  "official_run": true,
+  "input_basename": "strict_train_fy2010_2014.csv.gz",
+  "input_sha256": "13e721d4936831af585e439a874559a3f8108b5e96c59231d5e9c0805ad884da",
+  "counts": {
+    "fit_rows": 164628,
+    "val_rows": 45888,
+    "fit_events": 10856,
+    "val_events": 2778
+  },
+  "features": [
+    "log_gross_approval",
+    "guarantee_share",
+    "initial_interest_rate",
+    "naics_sector",
+    "project_state",
+    "business_type",
+    "processing_method",
+    "revolver_status",
+    "fixed_or_variable_interest_ind",
+    "collateral_ind"
+  ],
+  "models": [
+    {
+      "filename": "B_extended_no_term_LogisticRegression.joblib",
+      "sha256": "754906c56945136b9b559aa14f11a76155847f767a3abb67f7f7d5b7ca1fc9d9",
+      "bytes": 4203
+    },
+    {
+      "filename": "B_extended_no_term_HistGradientBoosting.joblib",
+      "sha256": "fefdcc3268ba8ea8fdfa269df6ca7d026d45500f5c405e4c13a404ab2ef147c9",
+      "bytes": 106829
+    }
+  ],
+  "metrics": [
+    {
+      "model": "B_extended_no_term__LogisticRegression",
+      "fit_years": "FY2010\u2013FY2013",
+      "validation_year": "FY2014",
+      "fit_rows": 164628,
+      "validation_rows": 45888,
+      "fit_events": 10856,
+      "validation_events": 2778,
+      "pr_auc_average_precision": 0.1060574,
+      "roc_auc": 0.6557371,
+      "brier_score": 0.0558695,
+      "log_loss": 0.2199731,
+      "mean_predicted_pct": 5.7275,
+      "actual_prevalence_pct": 6.0539,
+      "artifact_file": "B_extended_no_term_LogisticRegression.joblib",
+      "sha256": "754906c56945136b9b559aa14f11a76155847f767a3abb67f7f7d5b7ca1fc9d9",
+      "reload_predictions_exact": true,
+      "max_abs_reload_diff": 0.0,
+      "replicates_5d3_within_0_003": true
+    },
+    {
+      "model": "B_extended_no_term__HistGradientBoosting",
+      "fit_years": "FY2010\u2013FY2013",
+      "validation_year": "FY2014",
+      "fit_rows": 164628,
+      "validation_rows": 45888,
+      "fit_events": 10856,
+      "validation_events": 2778,
+      "pr_auc_average_precision": 0.1098973,
+      "roc_auc": 0.6695365,
+      "brier_score": 0.0557123,
+      "log_loss": 0.2183609,
+      "mean_predicted_pct": 5.6254,
+      "actual_prevalence_pct": 6.0539,
+      "artifact_file": "B_extended_no_term_HistGradientBoosting.joblib",
+      "sha256": "fefdcc3268ba8ea8fdfa269df6ca7d026d45500f5c405e4c13a404ab2ef147c9",
+      "reload_predictions_exact": true,
+      "max_abs_reload_diff": 0.0,
+      "replicates_5d3_within_0_003": true
+    }
+  ],
+  "qa_checks": {
+    "only_fy2010_2014_input_read": true,
+    "no_fy2015_2016_test_input_read": true,
+    "no_term_or_business_age_predictor": true,
+    "preprocessing_fit_only_on_fy2010_2013": true,
+    "matches_5d3_cohort_sha256": true,
+    "expected_cohort_counts": true,
+    "replicates_5d3_validation_metrics": true,
+    "model_reload_predictions_bitwise_identical": true,
+    "both_model_artifacts_saved": true,
+    "no_loan_level_records_exported": true
+  },
+  "all_expected_checks_pass": true,
+  "versions": {
+    "python": "3.10.2",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "scikit_learn": "1.7.2",
+    "scipy": "1.15.3",
+    "joblib": "1.4.2"
+  },
+  "not_production_ready": true,
+  "limits": [
+    "2026 FOIA retrospective snapshot; no independent approval-time version of features.",
+    "Strict-cohort sample is conditioned on later outcomes and source term validity even when term is excluded from predictors.",
+    "FY2013 and FY2014 have been used for development/model choice, so reported scores are not unbiased final generalization claims.",
+    "FY2015\u2013FY2016 outcomes were viewed in an earlier baseline; cannot call them pristine holdout.",
+    "Observed FY2014 risk exceeds mean prediction; calibration and subgroup calibration remain imperfect.",
+    "This is a research portfolio prototype and not a real-world credit decision system."
+  ]
+}

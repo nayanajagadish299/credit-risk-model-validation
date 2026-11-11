@@ -1,66 +1,47 @@
-# SBA 7(a) Credit-Risk Analytics & Model Validation
+# SBA 7(a) Credit-Risk Analytics and Model Validation
 
-**An independent financial data science project using publicly released SBA 7(a) FOIA data.**
+**Status:** reproducible research release candidate — **not production-ready**, not an approved underwriting score.
 
-The project studies portfolio outcomes, temporal cohort construction, credit-risk model experiments, feature provenance and an unusual loan-term/product pattern. The goal is a reproducible, carefully interpreted validation workflow—not a production lending model or a claim of causal effects.
+## Research goal
+Assess whether features in a public historical SBA 7(a) FOIA snapshot can rank **retrospective 120-month charge-off outcomes** in a deliberately selected strict cohort. The study explicitly addresses temporal validation, suspicious term-related signals, potential leakage, feature provenance and calibration. It does **not** establish that the features would have been available exactly as recorded at origination.
 
-## Data and evaluation design
+## Headline results (development validation, FY2014)
 
-- **Source:** Public SBA 7(a) FOIA loan data.
-- **Snapshot used locally:** September 30, 2026.
-- **Development split:** FY2010–FY2013 fit; FY2014 forward validation.
-- **Locked test:** FY2015–FY2016 is intentionally unopened while feature and model decisions remain in development.
-- Raw source files are maintained separately; this repository landing page does not distribute borrower-level data.
+| Model | PR-AUC | ROC-AUC | Brier score |
+|---|---:|---:|---:|
+| Extended Logistic Regression | 0.1061 | 0.6557 | 0.05587 |
+| Extended HistGradientBoosting (provisional primary) | **0.1099** | **0.6695** | **0.05571** |
 
-## Project status — 10 November 2026
+- Fitting period: FY2010–FY2013, **164,628** loans, **10,856** events.
+- Development validation: FY2014, **45,888** loans, **2,778** events (**6.05%**).
+- Neither model uses loan term, term-derived features, BusinessAge, terminal loan status or outcome dates.
+- The final freeze QA manifest reports all checks passed; archived model hashes have been verified.
+- A prior look at FY2015–FY2016 outcomes prevents describing that period as an untouched holdout.
 
-### Completed analytical work
+![Forward-year PR-AUC](figures/term_free_pr_auc_by_year.png)
 
-1. Public-data profiling and data-quality audits.
-2. Fixed-horizon cohort construction and temporal split.
-3. Baseline HistGradientBoosting model and model interpretation.
-4. Task 4 feature enrichment and feature-provenance diagnostics.
-5. Task 5A feature-set experiments A–F.
-6. Task 5B exact-term/product-group anomaly audit.
-7. Initial Task 5C adjusted analysis.
+![FY2014 HGB risk decile calibration](figures/fy2014_hgb_calibration.png)
 
-### Current work and next gates
+## Repository contents
 
-- **Task 5C.1:** Run the corrected analysis. It retains all exact-term groups, uses observed-support term/revolver groups, reports the Unanswered business-age category and full Model C coefficients, and fits imputation statistics on FY2010–FY2013 only.
-- **Task 5D:** Investigate product drivers and the Unanswered category; perform term-pattern ablation; compare Logistic Regression with HistGradientBoosting; inspect calibration by group; make final feature decisions.
-- Confirm point-in-time availability and source definitions before freezing the feature set.
-- Only after the feature/model freeze should the FY2015–FY2016 locked test be considered.
+- `scripts/`: chronological validation, source-lineage investigation and model-freeze scripts.
+- `models/`: curated fitted serialized pipelines (.joblib); **never load untrusted joblib files**.
+- `results/`: **aggregate-only** run manifests, model metrics, uncertainty, and calibration summaries.
+- `figures/`: plots derived exclusively from aggregate outputs.
+- `docs/`: detailed methodology, model card, data/feature caveats and reproduction notes.
+- `tools/validate_release.py`: verify file integrity and ensure the release excludes common raw-data patterns.
 
-**Important:** The saved first-run Task 5C output is provisional. The corrected analysis package contains the rerun script; corrected results must be generated and checked before any Task 5C result is treated as final.
+## Quick checks
 
-## Interpretation guardrails
+```powershell
+python .\tools\validate_release.py
+python -m compileall -q .\scripts
+```
 
-- Odds ratios are not risk ratios.
-- Statistical association is not causation.
-- A strong term-related signal is a diagnostic finding, not proof of a product rule or data error.
-- Do not use off-support predictions or unsupported term/revolver combinations as evidence.
-- Point-in-time predictor availability must be confirmed before predictive claims.
-- Do not report the locked test as evaluated until it has been deliberately opened after model freeze.
+To independently re-fit the frozen model, obtain the same **enriched strict FY2010–2014 cohort** from the documented public source and run the workflow in `docs/REPRODUCE.md`. The raw data are deliberately **not included** in this repository. The SHA-256 checksum in the freeze manifest identifies the exact cohort used for this research.
 
-## Reference/reproduction distinction
+## Read before using results
 
-A related public reference repository was inspected, but it uses a June 30, 2026 SBA snapshot. The local project uses the September 30, 2026 snapshot. The reference repository has not been independently cloned and run end-to-end; this work must not be described as an exact reproduction. Keep reference code separate and attribute any external methodology.
+The strict research cohort is selected using retrospective loan status/term validity, which can introduce selection bias even though term is excluded from the predictors. Source features lack independently verified approval-time versions. Risk calibration is imperfect and subgroup differences remain. No live credit decisions should use this model.
 
-## Planned portfolio deliverables
-
-- Reproducible cohort and analysis scripts.
-- Pinned environment and automated tests.
-- Model comparison and calibration tables.
-- Feature timing/provenance register.
-- Model card and technical validation report.
-- A compact dashboard or demo after the analytical decisions are frozen.
-
-## Technology
-
-Python, pandas, NumPy, scikit-learn, statsmodels, SciPy, matplotlib, Git and GitHub.
-
-## Author
-
-Nayana Jagadish
-
-**Focus:** Financial Data Science · Credit Risk Analytics · Model Validation · Business Analytics
+**Publication checklist:** run `python tools/validate_release.py`, review public-data licensing/terms, select a code license, confirm that `.gitignore` excludes raw records, and check all narrative claims against the manifests. See `docs/OPEN_QUESTIONS.md`.

@@ -1,0 +1,91 @@
+{
+  "task": "Project A Task 5D.2 Term-free chronological validation",
+  "created_utc": "2026-11-11T03:12:10.949613+00:00",
+  "input_basename": "strict_train_fy2010_2014.csv.gz",
+  "input_sha256": "13e721d4936831af585e439a874559a3f8108b5e96c59231d5e9c0805ad884da",
+  "scope": "Strict FY2010\u20132014 enriched cohort only",
+  "fit_years": [
+    2010,
+    2011,
+    2012,
+    2013
+  ],
+  "validation_year": 2014,
+  "counts": {
+    "fit_rows": 164628,
+    "val_rows": 45888,
+    "fit_events": 10856,
+    "val_events": 2778
+  },
+  "expected_checks": {
+    "fit_rows": true,
+    "val_rows": true,
+    "fit_events": true,
+    "val_events": true
+  },
+  "all_expected_checks_pass": true,
+  "smoke_test": false,
+  "model_count": 6,
+  "model_specifications": {
+    "A_core_no_term": {
+      "numerical": [
+        "log_gross_approval",
+        "guarantee_share"
+      ],
+      "categorical": [
+        "naics_sector",
+        "project_state",
+        "business_type"
+      ]
+    },
+    "B_extended_no_term": {
+      "numerical": [
+        "log_gross_approval",
+        "guarantee_share",
+        "initial_interest_rate"
+      ],
+      "categorical": [
+        "naics_sector",
+        "project_state",
+        "business_type",
+        "processing_method",
+        "revolver_status",
+        "fixed_or_variable_interest_ind",
+        "collateral_ind"
+      ]
+    },
+    "C_extended_plus_business_age_no_term": {
+      "numerical": [
+        "log_gross_approval",
+        "guarantee_share",
+        "initial_interest_rate"
+      ],
+      "categorical": [
+        "naics_sector",
+        "project_state",
+        "business_type",
+        "processing_method",
+        "revolver_status",
+        "fixed_or_variable_interest_ind",
+        "collateral_ind",
+        "business_age"
+      ]
+    }
+  },
+  "term_features_in_any_model": false,
+  "business_age_only_in_exploratory_C": true,
+  "outcome_dates_as_features": false,
+  "locked_test_rows_read": 0,
+  "preprocessing_fit_only_on_fy2010_2013": true,
+  "python_version": "3.10.2",
+  "pandas_version": "2.3.3",
+  "sklearn_version": "1.7.2",
+  "no_loan_level_predictions_exported": true,
+  "interpretation_limits": [
+    "Validation is retrospective and conditioned on a strict cohort constructed using eventual outcomes/status.",
+    "Term-validity is part of cohort entry even though Term is excluded as a prediction feature.",
+    "Approval-time historical provenance of all source features remains to be documented.",
+    "BusinessAge is exploratory in specification C only; not approved for deployment.",
+    "Do not use FY2015-2016 for model tuning; early baseline previously inspected this period."
+  ]
+}

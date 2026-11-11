@@ -1,0 +1,7 @@
+# Pinned versions reported by the successful Task 5E.1 model-freeze run
+# Recommended Python version: 3.10.2
+joblib==1.4.2
+numpy==2.2.6
+pandas==2.3.3
+scipy==1.15.3
+scikit-learn==1.7.2

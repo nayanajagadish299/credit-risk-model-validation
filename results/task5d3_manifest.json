@@ -1,0 +1,56 @@
+{
+  "task": "Project A 5D.3: FY2013/FY2014 term-free forward robustness",
+  "created_utc": "2026-11-11T03:35:21.494937+00:00",
+  "input_file": "strict_train_fy2010_2014.csv.gz",
+  "input_sha256": "13e721d4936831af585e439a874559a3f8108b5e96c59231d5e9c0805ad884da",
+  "matches_5d2_input_sha256": true,
+  "fit_validation_folds": [
+    {
+      "validation_year": 2013,
+      "train_years": [
+        2010,
+        2011,
+        2012
+      ],
+      "train_rows": 124259,
+      "train_events": 8605,
+      "validation_rows": 40369,
+      "validation_events": 2251
+    },
+    {
+      "validation_year": 2014,
+      "train_years": [
+        2010,
+        2011,
+        2012,
+        2013
+      ],
+      "train_rows": 164628,
+      "train_events": 10856,
+      "validation_rows": 45888,
+      "validation_events": 2778
+    }
+  ],
+  "candidate_models": 4,
+  "bootstrap_reps": 150,
+  "qa_checks": {
+    "no_test_files_read": true,
+    "no_term_features_in_models": true,
+    "no_business_age_predictor": true,
+    "preprocessing_fit_only_in_fold": true,
+    "expected_2014_counts": true,
+    "reproduces_5d2_2014_b_within_0_003": true
+  },
+  "all_expected_checks_pass": true,
+  "smoke_test": false,
+  "python_version": "3.10.2",
+  "pandas_version": "2.3.3",
+  "sklearn_version": "1.7.2",
+  "no_loan_level_outputs_saved": true,
+  "notes": [
+    "BusinessAge is examined as subgroup but not used by candidates.",
+    "Strict source cohort is conditioned on retrospective statuses and term validity.",
+    "Approval-time provenance and cohort selection must be disclosed before repository release.",
+    "FY2015-2016 was viewed during an earlier baseline; not a virgin holdout."
+  ]
+}

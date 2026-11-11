@@ -1,0 +1,103 @@
+﻿model,group_field,group_value,n,chargeoffs,observed_rate_pct,mean_predicted_pct,brier_score
+A_core_no_term__LogisticRegression,revolver_status,N,31412,1780,5.6666,5.9775,0.052921
+A_core_no_term__LogisticRegression,revolver_status,Y,14476,998,6.8942,6.172,0.063678
+A_core_no_term__LogisticRegression,processing_method,7a General,2804,156,5.5635,5.5406,0.051969
+A_core_no_term__LogisticRegression,processing_method,Certified Lenders Program,272,11,4.0441,4.9787,0.03873
+A_core_no_term__LogisticRegression,processing_method,Community Advantage Initiative,384,53,13.8021,8.5319,0.119923
+A_core_no_term__LogisticRegression,processing_method,Patriot Express Loans,282,31,10.9929,9.3492,0.09681
+A_core_no_term__LogisticRegression,processing_method,Preferred Lenders Program,11030,513,4.651,5.2428,0.04385
+A_core_no_term__LogisticRegression,processing_method,SBA Express Program,23411,1453,6.2065,5.8972,0.057759
+A_core_no_term__LogisticRegression,processing_method,Small Loan Advantage Initiative,6680,529,7.9192,7.7072,0.072693
+A_core_no_term__LogisticRegression,processing_method,Working Capital CAPLine,390,12,3.0769,5.5355,0.030933
+A_core_no_term__LogisticRegression,business_age,"Existing, 5 or more years",24104,1115,4.6258,5.7006,0.043998
+A_core_no_term__LogisticRegression,business_age,Less than 3 years old but at least 2,2864,247,8.6243,6.4024,0.078618
+A_core_no_term__LogisticRegression,business_age,Less than 4 years old but at least 3,2448,166,6.781,6.1975,0.062908
+A_core_no_term__LogisticRegression,business_age,Less than 5 years old but at least 4,2063,157,7.6103,6.0625,0.069903
+A_core_no_term__LogisticRegression,business_age,"New, Less than 1 Year old",4817,384,7.9718,6.4992,0.072487
+A_core_no_term__LogisticRegression,business_age,"Startup, Loan Funds will Open Business",6718,521,7.7553,6.5282,0.070965
+A_core_no_term__LogisticRegression,business_age,Unanswered,2777,178,6.4098,6.4902,0.059552
+A_core_no_term__HistGradientBoosting,revolver_status,N,31412,1780,5.6666,5.8177,0.052791
+A_core_no_term__HistGradientBoosting,revolver_status,Y,14476,998,6.8942,6.1701,0.063635
+A_core_no_term__HistGradientBoosting,processing_method,7a General,2804,156,5.5635,5.6086,0.051926
+A_core_no_term__HistGradientBoosting,processing_method,Certified Lenders Program,272,11,4.0441,4.9166,0.038849
+A_core_no_term__HistGradientBoosting,processing_method,Community Advantage Initiative,384,53,13.8021,8.0775,0.120874
+A_core_no_term__HistGradientBoosting,processing_method,Patriot Express Loans,282,31,10.9929,9.0658,0.095716
+A_core_no_term__HistGradientBoosting,processing_method,Preferred Lenders Program,11030,513,4.651,4.9549,0.043722
+A_core_no_term__HistGradientBoosting,processing_method,SBA Express Program,23411,1453,6.2065,5.9307,0.057699
+A_core_no_term__HistGradientBoosting,processing_method,Small Loan Advantage Initiative,6680,529,7.9192,7.3326,0.072411
+A_core_no_term__HistGradientBoosting,processing_method,Working Capital CAPLine,390,12,3.0769,5.9551,0.030991
+A_core_no_term__HistGradientBoosting,business_age,"Existing, 5 or more years",24104,1115,4.6258,5.6632,0.043854
+A_core_no_term__HistGradientBoosting,business_age,Less than 3 years old but at least 2,2864,247,8.6243,6.3047,0.078262
+A_core_no_term__HistGradientBoosting,business_age,Less than 4 years old but at least 3,2448,166,6.781,6.1744,0.062756
+A_core_no_term__HistGradientBoosting,business_age,Less than 5 years old but at least 4,2063,157,7.6103,6.0245,0.069668
+A_core_no_term__HistGradientBoosting,business_age,"New, Less than 1 Year old",4817,384,7.9718,6.1432,0.072606
+A_core_no_term__HistGradientBoosting,business_age,"Startup, Loan Funds will Open Business",6718,521,7.7553,6.3425,0.071051
+A_core_no_term__HistGradientBoosting,business_age,Unanswered,2777,178,6.4098,6.2254,0.05938
+B_extended_no_term__LogisticRegression,revolver_status,N,31412,1780,5.6666,5.5283,0.052538
+B_extended_no_term__LogisticRegression,revolver_status,Y,14476,998,6.8942,6.1597,0.063099
+B_extended_no_term__LogisticRegression,processing_method,7a General,2804,156,5.5635,6.9885,0.051832
+B_extended_no_term__LogisticRegression,processing_method,Certified Lenders Program,272,11,4.0441,4.0476,0.038573
+B_extended_no_term__LogisticRegression,processing_method,Community Advantage Initiative,384,53,13.8021,10.4456,0.118403
+B_extended_no_term__LogisticRegression,processing_method,Patriot Express Loans,282,31,10.9929,9.7119,0.095841
+B_extended_no_term__LogisticRegression,processing_method,Preferred Lenders Program,11030,513,4.651,4.3962,0.043717
+B_extended_no_term__LogisticRegression,processing_method,SBA Express Program,23411,1453,6.2065,5.6608,0.057293
+B_extended_no_term__LogisticRegression,processing_method,Small Loan Advantage Initiative,6680,529,7.9192,7.2503,0.071842
+B_extended_no_term__LogisticRegression,processing_method,Working Capital CAPLine,390,12,3.0769,4.3737,0.029923
+B_extended_no_term__LogisticRegression,business_age,"Existing, 5 or more years",24104,1115,4.6258,5.3466,0.04352
+B_extended_no_term__LogisticRegression,business_age,Less than 3 years old but at least 2,2864,247,8.6243,6.1927,0.078385
+B_extended_no_term__LogisticRegression,business_age,Less than 4 years old but at least 3,2448,166,6.781,5.9806,0.062493
+B_extended_no_term__LogisticRegression,business_age,Less than 5 years old but at least 4,2063,157,7.6103,5.8446,0.069213
+B_extended_no_term__LogisticRegression,business_age,"New, Less than 1 Year old",4817,384,7.9718,6.3261,0.072004
+B_extended_no_term__LogisticRegression,business_age,"Startup, Loan Funds will Open Business",6718,521,7.7553,6.0664,0.070696
+B_extended_no_term__LogisticRegression,business_age,Unanswered,2777,178,6.4098,6.4046,0.058953
+B_extended_no_term__HistGradientBoosting,revolver_status,N,31412,1780,5.6666,5.3361,0.052312
+B_extended_no_term__HistGradientBoosting,revolver_status,Y,14476,998,6.8942,6.2532,0.06309
+B_extended_no_term__HistGradientBoosting,processing_method,7a General,2804,156,5.5635,6.553,0.051377
+B_extended_no_term__HistGradientBoosting,processing_method,Certified Lenders Program,272,11,4.0441,4.0545,0.038705
+B_extended_no_term__HistGradientBoosting,processing_method,Community Advantage Initiative,384,53,13.8021,11.192,0.117613
+B_extended_no_term__HistGradientBoosting,processing_method,Patriot Express Loans,282,31,10.9929,9.2261,0.0958
+B_extended_no_term__HistGradientBoosting,processing_method,Preferred Lenders Program,11030,513,4.651,4.049,0.043376
+B_extended_no_term__HistGradientBoosting,processing_method,SBA Express Program,23411,1453,6.2065,5.711,0.057328
+B_extended_no_term__HistGradientBoosting,processing_method,Small Loan Advantage Initiative,6680,529,7.9192,7.1841,0.071501
+B_extended_no_term__HistGradientBoosting,processing_method,Working Capital CAPLine,390,12,3.0769,4.2171,0.02982
+B_extended_no_term__HistGradientBoosting,business_age,"Existing, 5 or more years",24104,1115,4.6258,5.2528,0.043349
+B_extended_no_term__HistGradientBoosting,business_age,Less than 3 years old but at least 2,2864,247,8.6243,6.0621,0.078035
+B_extended_no_term__HistGradientBoosting,business_age,Less than 4 years old but at least 3,2448,166,6.781,5.961,0.062109
+B_extended_no_term__HistGradientBoosting,business_age,Less than 5 years old but at least 4,2063,157,7.6103,5.7897,0.069247
+B_extended_no_term__HistGradientBoosting,business_age,"New, Less than 1 Year old",4817,384,7.9718,5.9855,0.072129
+B_extended_no_term__HistGradientBoosting,business_age,"Startup, Loan Funds will Open Business",6718,521,7.7553,6.1329,0.070455
+B_extended_no_term__HistGradientBoosting,business_age,Unanswered,2777,178,6.4098,6.1758,0.058933
+C_extended_plus_business_age_no_term__LogisticRegression,revolver_status,N,31412,1780,5.6666,5.5352,0.052417
+C_extended_plus_business_age_no_term__LogisticRegression,revolver_status,Y,14476,998,6.8942,6.1396,0.063038
+C_extended_plus_business_age_no_term__LogisticRegression,processing_method,7a General,2804,156,5.5635,7.0705,0.051733
+C_extended_plus_business_age_no_term__LogisticRegression,processing_method,Certified Lenders Program,272,11,4.0441,4.0327,0.038372
+C_extended_plus_business_age_no_term__LogisticRegression,processing_method,Community Advantage Initiative,384,53,13.8021,10.5911,0.117319
+C_extended_plus_business_age_no_term__LogisticRegression,processing_method,Patriot Express Loans,282,31,10.9929,9.9001,0.095819
+C_extended_plus_business_age_no_term__LogisticRegression,processing_method,Preferred Lenders Program,11030,513,4.651,4.4188,0.043549
+C_extended_plus_business_age_no_term__LogisticRegression,processing_method,SBA Express Program,23411,1453,6.2065,5.6321,0.057239
+C_extended_plus_business_age_no_term__LogisticRegression,processing_method,Small Loan Advantage Initiative,6680,529,7.9192,7.2414,0.071742
+C_extended_plus_business_age_no_term__LogisticRegression,processing_method,Working Capital CAPLine,390,12,3.0769,4.4767,0.029942
+C_extended_plus_business_age_no_term__LogisticRegression,business_age,"Existing, 5 or more years",24104,1115,4.6258,4.8266,0.043474
+C_extended_plus_business_age_no_term__LogisticRegression,business_age,Less than 3 years old but at least 2,2864,247,8.6243,6.5449,0.078238
+C_extended_plus_business_age_no_term__LogisticRegression,business_age,Less than 4 years old but at least 3,2448,166,6.781,5.8859,0.062532
+C_extended_plus_business_age_no_term__LogisticRegression,business_age,Less than 5 years old but at least 4,2063,157,7.6103,6.1267,0.069053
+C_extended_plus_business_age_no_term__LogisticRegression,business_age,"New, Less than 1 Year old",4817,384,7.9718,6.9447,0.071755
+C_extended_plus_business_age_no_term__LogisticRegression,business_age,"Startup, Loan Funds will Open Business",6718,521,7.7553,7.0082,0.070456
+C_extended_plus_business_age_no_term__LogisticRegression,business_age,Unanswered,2777,178,6.4098,6.943,0.059014
+C_extended_plus_business_age_no_term__HistGradientBoosting,revolver_status,N,31412,1780,5.6666,5.3665,0.052233
+C_extended_plus_business_age_no_term__HistGradientBoosting,revolver_status,Y,14476,998,6.8942,6.2323,0.063027
+C_extended_plus_business_age_no_term__HistGradientBoosting,processing_method,7a General,2804,156,5.5635,6.6724,0.051329
+C_extended_plus_business_age_no_term__HistGradientBoosting,processing_method,Certified Lenders Program,272,11,4.0441,4.0027,0.038624
+C_extended_plus_business_age_no_term__HistGradientBoosting,processing_method,Community Advantage Initiative,384,53,13.8021,11.178,0.116877
+C_extended_plus_business_age_no_term__HistGradientBoosting,processing_method,Patriot Express Loans,282,31,10.9929,9.3726,0.095996
+C_extended_plus_business_age_no_term__HistGradientBoosting,processing_method,Preferred Lenders Program,11030,513,4.651,4.1226,0.043226
+C_extended_plus_business_age_no_term__HistGradientBoosting,processing_method,SBA Express Program,23411,1453,6.2065,5.6851,0.057304
+C_extended_plus_business_age_no_term__HistGradientBoosting,processing_method,Small Loan Advantage Initiative,6680,529,7.9192,7.1898,0.071384
+C_extended_plus_business_age_no_term__HistGradientBoosting,processing_method,Working Capital CAPLine,390,12,3.0769,4.1397,0.029864
+C_extended_plus_business_age_no_term__HistGradientBoosting,business_age,"Existing, 5 or more years",24104,1115,4.6258,4.8151,0.043277
+C_extended_plus_business_age_no_term__HistGradientBoosting,business_age,Less than 3 years old but at least 2,2864,247,8.6243,6.3624,0.077985
+C_extended_plus_business_age_no_term__HistGradientBoosting,business_age,Less than 4 years old but at least 3,2448,166,6.781,5.782,0.062181
+C_extended_plus_business_age_no_term__HistGradientBoosting,business_age,Less than 5 years old but at least 4,2063,157,7.6103,5.8841,0.069043
+C_extended_plus_business_age_no_term__HistGradientBoosting,business_age,"New, Less than 1 Year old",4817,384,7.9718,6.5529,0.072033
+C_extended_plus_business_age_no_term__HistGradientBoosting,business_age,"Startup, Loan Funds will Open Business",6718,521,7.7553,7.0494,0.070303
+C_extended_plus_business_age_no_term__HistGradientBoosting,business_age,Unanswered,2777,178,6.4098,6.7664,0.059018
